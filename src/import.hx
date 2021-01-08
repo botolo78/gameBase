@@ -6,6 +6,7 @@ import dn.data.GetText;
 import dn.heaps.slib.*;
 import ui.Console;
 import tools.*;
+import World;
 
 // Aliases
 import dn.Color as C;

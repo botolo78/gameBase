@@ -22,6 +22,11 @@ class Game extends Process {
 	/** UI **/
 	public var hud : ui.Hud;
 
+	/** LDtk world data **/
+	public var world : World;
+	// public var hero: en.Hero;
+	public var curLevelIdx = 0;
+
 
 	public function new() {
 		super(Main.ME);
@@ -35,14 +40,31 @@ class Game extends Process {
 		root.add(scroller, Const.DP_BG);
 		scroller.filter = new h2d.filter.ColorMatrix(); // force rendering for pixel perfect
 
-		camera = new Camera();
-		level = new Level();
+		world = new World();
+		// camera = new Camera();
 		fx = new Fx();
 		hud = new ui.Hud();
 
-		Process.resizeAll();
+		startLevel(0);
 		trace(Lang.t._("Game is ready."));
 	}
+
+
+	function startLevel(idx=-1, ?data:World_Level) {
+		curLevelIdx = idx;
+		// Cleanup
+		if( level!=null )
+			level.destroy();
+		fx.clear();
+		gc();
+
+		// Init
+		level = new Level( data!=null ? data : world.levels[curLevelIdx] );
+		trace(level.pxWid);
+		Process.resizeAll();
+		hxd.Timer.skip();
+	}
+
 
 	/** CDB file changed on disk**/
 	public function onCdbReload() {}

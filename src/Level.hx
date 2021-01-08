@@ -3,10 +3,12 @@ class Level extends dn.Process {
 	var fx(get,never) : Fx; inline function get_fx() return Game.ME.fx;
 
 	/** Level grid-based width**/
-	public var cWid(get,never) : Int; inline function get_cWid() return 16;
+	// public var cWid(get,never) : Int; inline function get_cWid() return 32;
+	public var cWid(get,never) : Int; inline function get_cWid() return level.l_Collisions.cWid;
 
 	/** Level grid-based height **/
-	public var cHei(get,never) : Int; inline function get_cHei() return 16;
+	// public var cHei(get,never) : Int; inline function get_cHei() return 16;
+	public var cHei(get,never) : Int; inline function get_cHei() return level.l_Collisions.cHei;
 
 	/** Level pixel width**/
 	public var pxWid(get,never) : Int; inline function get_pxWid() return cWid*Const.GRID;
@@ -14,11 +16,15 @@ class Level extends dn.Process {
 	/** Level pixel height**/
 	public var pxHei(get,never) : Int; inline function get_pxHei() return cHei*Const.GRID;
 
+	public var level : World_Level;
+
+	
 	var invalidated = true;
 
-	public function new() {
+	public function new(l:World_Level) {
 		super(Game.ME);
 		createRootInLayers(Game.ME.scroller, Const.DP_BG);
+		level = l;
 	}
 
 	/** TRUE if given coords are in level bounds **/

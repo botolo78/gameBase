@@ -15,6 +15,7 @@ class Entity {
 	public var onGround(get,never): Bool;
 		inline function get_onGround() return dy==0 && level.hasCollision(cx,cy+1) && yr==1;
 
+	public var state : States;
 
 	/** Cooldowns **/
 	public var cd : dn.Cooldown;
@@ -374,9 +375,12 @@ class Entity {
     public function postUpdate() {
         spr.x = (cx+xr)*Const.GRID;
         spr.y = (cy+yr)*Const.GRID;
-        spr.scaleX = dir*sprScaleX;
-        spr.scaleY = sprScaleY;
+        spr.scaleX = dir*sprScaleX * sprSquashX;
+        spr.scaleY = sprScaleY * sprSquashY;
 		spr.visible = entityVisible;
+
+		sprSquashX += (1-sprSquashX) * 0.2;
+		sprSquashY += (1-sprSquashY) * 0.2;
 
 		// Debug label
 		if( debugLabel!=null ) {
@@ -436,6 +440,18 @@ class Entity {
 	public function fixedUpdate() {} // runs at a "guaranteed" 30 fps
 
 	public function update() { // runs at an unknown fps
+
+		// States
+
+		if ( onGround && dx == 0 && dy == 0 && bdx ==0 && bdy == 0)
+			state = Idle;
+		if ( onGround && dx != 0 && dy == 0 && bdx ==0 && bdy == 0)
+			state = Run;	
+		if ( !onGround && dy < 0)
+			state = JumpUp;			
+		if ( !onGround && dy > 0)
+			state = JumpDown;					
+
 		// Circular collisions
 		if( hasCircularCollisions() ) {
 			var d = 0.;

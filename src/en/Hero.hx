@@ -2,8 +2,7 @@ package en;
 
 class Hero extends Entity {
 	var ca : dn.heaps.Controller.ControllerAccess;
-
-	var shadow : h2d.filter.DropShadow;
+	var jumps : Int;
 
 	public function new(e:Entity_Hero) {
 		super(e.cx, e.cy);
@@ -12,10 +11,56 @@ class Hero extends Entity {
 		ca = Main.ME.controller.createAccess("hero");
 		ca.setLeftDeadZone(0.2);
 
-		spr.anim.registerStateAnim("heroIdle",0);
+		spr.anim.registerStateAnim("heroIdle",0 );
+		spr.anim.registerStateAnim("heroRun",5, ()-> isRunning() );
+		spr.anim.registerStateAnim("heroJumpUp",5, ()-> isJumpingUp() );
+		spr.anim.registerStateAnim("heroJumpDown",5, 0.9,  ()-> isJumpingDown() );
 
 	}
 
+	// States
+	public inline function isIdle() { return isAlive() && state == Idle; }
+	public inline function isRunning() { return isAlive() && state == Run; }
+	public inline function isJumpingUp() { return isAlive() && state == JumpUp; }
+	public inline function isJumpingDown() { return isAlive() && state == JumpDown; }
+
+
+
+
+	override function startClimbing() {
+		super.startClimbing();
+		cd.unset("jumpForce");
+		cd.unset("jumpExtra");
+	}
+
+
+	override function onLand(fallCHei:Float) {
+		super.onLand(fallCHei);
+		jumps = 0;
+		// if( fallCHei>=3 )
+		// 	Assets.SLIB.land0(1);
+		// else
+		// 	Assets.SLIB.land1(0.5 * M.fmin(1,fallCHei/2));
+
+		var impact = M.fmin(1, fallCHei/6);
+		dx *= (1-impact)*0.5;
+		game.camera.bump(0, 2*impact);
+		setSquashY(1-impact*0.7);
+
+		if( fallCHei>=9 ) {
+			lockControlS(0.3);
+			game.camera.shakeS(1,0.3);
+			cd.setS("heavyLand",0.3);
+		}
+		else if( fallCHei>=3 )
+			lockControlS(0.03*impact);
+	}
+
+	public inline function isCrouching() {
+		return isAlive() && ( level.hasCollision(cx,cy-1) && level.hasCollision(cx,cy+1) || cd.has("heavyLand") );
+	}
+
+	
 	override function dispose() {
 		super.dispose();
 		ca.dispose();
@@ -23,7 +68,6 @@ class Hero extends Entity {
 
 	override function postUpdate() {
 		super.postUpdate();
-
 	}
 
 	override function update() {
@@ -35,7 +79,6 @@ class Hero extends Entity {
 			cd.setS("airControl",10);
 		}
 
-
 		// Walk
 		if( !controlsLocked() && ca.leftDist() > 0 ) {
 			var xPow = Math.cos( ca.leftAngle() );
@@ -43,14 +86,14 @@ class Hero extends Entity {
 			var old = dir;
 			dir = M.fabs(xPow)>=0.1 ? M.sign(xPow) : dir;
 		}
-		else
+		else {
 			dx*=Math.pow(0.8,tmod);
+		}
 
 
 		// Jump
 		var jumpKeyboardDown = ca.isKeyboardDown(K.Z) || ca.isKeyboardDown(K.W) || ca.isKeyboardDown(K.UP);
-		if( !controlsLocked() && ca.aPressed() && ( !climbing && cd.has("onGroundRecently") || climbing && !jumpKeyboardDown ) ) {
-			trace("jump");
+		if( !controlsLocked() && ca.aPressed() && !isCrouching() && ( !climbing && cd.has("onGroundRecently") || climbing && !jumpKeyboardDown ) ) {
 			if( climbing ) {
 				stopClimbing();
 				cd.setS("climbLock",0.2);
@@ -65,19 +108,41 @@ class Hero extends Entity {
 			}
 			else {
 				setSquashX(0.7);
-				dy = -0.07;
+				dy = -0.1;
 				cd.setS("jumpForce",0.1);
-				cd.setS("jumpExtra",0.1);
+				cd.setS("jumpExtra",0.2);
 			}
+			jumps += 1;
 		}
 		else if( cd.has("jumpExtra") && ca.aDown() )
-			dy-=0.04*tmod;
+			dy -= 0.04*tmod;
 
 		if( cd.has("jumpForce") && ca.aDown() )
 			dy -= 0.05 * cd.getRatio("jumpForce") * tmod;	
 
+		// Allow double jump for 0.2 seconds
+		if ( (isJumpingUp() || isJumpingDown()) && ca.aPressed() ) {
+			jumps += 1;
+			if ( jumps == 2 )
+				cd.setS("doubleJump",0.2);
+		}
+
+		if( cd.has("doubleJump") && ca.aDown() ) {
+			dy = -0.1;
+			cd.setS("jumpForce",0.1);
+		}
+
+
+
+
+
+
+
+
+		
 		#if debug
 		// debug( M.pretty(hxd.Timer.fps(),1) );
+		debug(state);
 		#end
 	}
 }

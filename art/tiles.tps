@@ -318,6 +318,9 @@
                 <false/>
             </struct>
             <key type="filename">export_tiles/heroIdle0.png</key>
+            <key type="filename">export_tiles/heroJumpDown0.png</key>
+            <key type="filename">export_tiles/heroJumpUp0.png</key>
+            <key type="filename">export_tiles/heroRun0.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

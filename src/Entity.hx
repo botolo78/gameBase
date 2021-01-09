@@ -65,6 +65,8 @@ class Entity {
 	// Sprite transformations
 	public var sprScaleX = 1.0;
 	public var sprScaleY = 1.0;
+	public var sprSquashX = 1.0;
+	public var sprSquashY = 1.0;	
 	public var entityVisible = true;
 
     public var spr : HSprite;
@@ -85,6 +87,7 @@ class Entity {
 	public var prevFrameFootX : Float = -Const.INFINITE;
 	public var prevFrameFootY : Float = -Const.INFINITE;
 	var fallHighestCy = 0.;
+	public var climbing = false;
 
 	var actions : Array<{ id:String, cb:Void->Void, t:Float }> = [];
 
@@ -353,6 +356,16 @@ class Entity {
 		return !hasAffect(Stun) && isAlive();
 	}
 
+
+	public function setSquashX(v:Float) {
+		sprSquashX = v;
+		sprSquashY = 2-v;
+	}
+	public function setSquashY(v:Float) {
+		sprSquashX = 2-v;
+		sprSquashY = v;
+	}	
+
     public function preUpdate() {
 		cd.update(tmod);
 		updateActions();
@@ -391,6 +404,21 @@ class Entity {
 	public inline function controlsLocked() {
 		return destroyed || cd.has("ctrlLocked");
 	}
+
+
+	public function startClimbing() {
+		climbing = true;
+		bdx*=0.2;
+		bdy*=0.2;
+		dx*=0.3;
+		dy*=0.1;
+	}
+
+	public function stopClimbing() {
+		climbing = false;
+	}
+
+
 
 	function onLand(fallCHei:Float) {
 		bdy = 0;
@@ -456,7 +484,7 @@ class Entity {
 		if( M.fabs(bdx)<=0.0005*tmod ) bdx = 0;
 
 		// Y
-		if( !onGround )
+		if( !onGround && !climbing )
 			dy += gravityMul*Const.GRAVITY * tmod;
 		var steps = M.ceil( M.fabs(dyTotal*tmod) );
 		var step = dyTotal*tmod / steps;
@@ -466,7 +494,7 @@ class Entity {
 			if( onGround || dy<=0 )
 				fallHighestCy = cy+yr;
 
-			if( level.hasCollision(cx,cy-1) && yr<0.5 ) {
+			if( !climbing && level.hasCollision(cx,cy-1) && yr<0.5 ) {
 				yr = 0.5;
 				dy *= Math.pow(0.5,tmod);
 			}

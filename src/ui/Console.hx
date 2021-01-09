@@ -13,6 +13,7 @@ class Console extends h2d.Console {
 
 		// Settings
 		ME = this;
+		this.height += 30; // FIX to increase console height due to current scale(2) option
 		h2d.Console.HIDE_LOG_TIMEOUT = 30;
 		Lib.redirectTracesToH2dConsole(this);
 

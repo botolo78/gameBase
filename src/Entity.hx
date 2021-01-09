@@ -10,9 +10,17 @@ class Entity {
 	public var ftime(get,never) : Float; inline function get_ftime() return game.ftime;
 	public var tmod(get,never) : Float; inline function get_tmod() return Game.ME.tmod;
 	public var hud(get,never) : ui.Hud; inline function get_hud() return Game.ME.hud;
+	public var hero(get,never) : en.Hero; inline function get_hero() return Game.ME.hero;
+
+	public var onGround(get,never): Bool;
+		inline function get_onGround() return dy==0 && level.hasCollision(cx,cy+1) && yr==1;
+
 
 	/** Cooldowns **/
 	public var cd : dn.Cooldown;
+
+	/** Temporary gameplay affects **/
+	var affects : Map<Affect,Float> = new Map();	
 
 	/** Unique identifier **/
 	public var uid(default,null) : Int;
@@ -26,6 +34,7 @@ class Entity {
 	// Velocities
     public var dx = 0.;
 	public var dy = 0.;
+	public var gravityMul = 1.0;
 
 	// Uncontrollable bump velocities, usually applied by external
 	// factors (think of a bumper in Sonic for example)
@@ -45,6 +54,11 @@ class Entity {
 	public var hei : Float = Const.GRID;
 	public var radius = Const.GRID*0.5;
 
+	// Debug bound
+	inline function set_hei(v) { invalidateDebugBounds=true;  return hei=v; }
+	inline function set_radius(v) { invalidateDebugBounds=true;  return radius=v; }
+	public var circularCollisions = false;
+
 	/** Horizontal direction, can only be -1 or 1 **/
 	public var dir(default,set) = 1;
 
@@ -55,7 +69,11 @@ class Entity {
 
     public var spr : HSprite;
 	public var colorAdd : h3d.Vector;
+
+	// Debug stuff
 	var debugLabel : Null<h2d.Text>;
+	var debugBounds : Null<h2d.Graphics>;
+	var invalidateDebugBounds = false;
 
 	// Coordinates getters, for easier gameplay coding
 	public var footX(get,never) : Float; inline function get_footX() return (cx+xr)*Const.GRID;
@@ -64,6 +82,9 @@ class Entity {
 	public var headY(get,never) : Float; inline function get_headY() return footY-hei;
 	public var centerX(get,never) : Float; inline function get_centerX() return footX;
 	public var centerY(get,never) : Float; inline function get_centerY() return footY-hei*0.5;
+	public var prevFrameFootX : Float = -Const.INFINITE;
+	public var prevFrameFootY : Float = -Const.INFINITE;
+	var fallHighestCy = 0.;
 
 	var actions : Array<{ id:String, cb:Void->Void, t:Float }> = [];
 
@@ -78,6 +99,9 @@ class Entity {
         Game.ME.scroller.add(spr, Const.DP_MAIN);
 		spr.colorAdd = colorAdd = new h3d.Vector();
 		spr.setCenterRatio(0.5,1);
+		if( ui.Console.ME.hasFlag("bounds") )
+			enableBounds();		
+		// enableBounds();		
     }
 
 	inline function set_dir(v) {
@@ -155,6 +179,11 @@ class Entity {
 			debugLabel = null;
 		}
 
+		if( debugBounds!=null ) {
+			debugBounds.remove();
+			debugBounds = null;
+		}		
+
 		cd.destroy();
 		cd = null;
     }
@@ -175,6 +204,51 @@ class Entity {
 			debugLabel.textColor = c;
 		}
 		#end
+	}
+
+
+	public function disableBounds() {
+		if( debugBounds!=null ) {
+			debugBounds.remove();
+			debugBounds = null;
+		}
+	}
+
+	public function enableBounds() {
+		if( debugBounds==null ) {
+			debugBounds = new h2d.Graphics();
+			game.scroller.add(debugBounds, Const.DP_TOP);
+		}
+		invalidateDebugBounds = true;
+	}
+
+	function renderBounds() {
+		var c = Color.makeColorHsl((uid%20)/20, 1, 1);
+		debugBounds.clear();
+
+		// Radius
+		debugBounds.lineStyle(1, c, 0.8);
+		debugBounds.drawCircle(0,-radius,radius);
+
+		// Hei
+		debugBounds.lineStyle(1, c, 0.5);
+		debugBounds.drawRect(-radius,-hei,radius*2,hei);
+
+		// Feet
+		debugBounds.lineStyle(1, 0xffffff, 1);
+		var d = Const.GRID*0.2;
+		debugBounds.moveTo(-d,0);
+		debugBounds.lineTo(d,0);
+		debugBounds.moveTo(0,-d);
+		debugBounds.lineTo(0,0);
+
+		// Center
+		debugBounds.lineStyle(1, c, 0.3);
+		debugBounds.drawCircle(0, -hei*0.5, 3);
+
+		// Head
+		debugBounds.lineStyle(1, c, 0.3);
+		debugBounds.drawCircle(0, headY-footY, 3);
 	}
 
 	function chargeAction(id:String, sec:Float, cb:Void->Void) {
@@ -227,6 +301,58 @@ class Entity {
 	}
 
 
+	public inline function hasAffect(k:Affect) {
+		return affects.exists(k) && affects.get(k)>0;
+	}
+
+	public inline function getAffectDurationS(k:Affect) {
+		return hasAffect(k) ? affects.get(k) : 0.;
+	}
+
+	public function setAffectS(k:Affect, t:Float, ?allowLower=false) {
+		if( affects.exists(k) && affects.get(k)>t && !allowLower )
+			return;
+
+		if( t<=0 )
+			clearAffect(k);
+		else {
+			var isNew = !hasAffect(k);
+			affects.set(k,t);
+			if( isNew )
+				onAffectStart(k);
+		}
+	}
+
+	public function mulAffectS(k:Affect, f:Float) {
+		if( hasAffect(k) )
+			setAffectS(k, getAffectDurationS(k)*f, true);
+	}
+
+	public function clearAffect(k:Affect) {
+		if( hasAffect(k) ) {
+			affects.remove(k);
+			onAffectEnd(k);
+		}
+	}
+
+	function updateAffects() {
+		for(k in affects.keys()) {
+			var t = affects.get(k);
+			t-=1/Const.FPS * tmod;
+			if( t<=0 )
+				clearAffect(k);
+			else
+				affects.set(k,t);
+		}
+	}
+
+	function onAffectStart(k:Affect) {}
+	function onAffectEnd(k:Affect) {}
+
+	public function isConscious() {
+		return !hasAffect(Stun) && isAlive();
+	}
+
     public function preUpdate() {
 		cd.update(tmod);
 		updateActions();
@@ -239,22 +365,86 @@ class Entity {
         spr.scaleY = sprScaleY;
 		spr.visible = entityVisible;
 
+		// Debug label
 		if( debugLabel!=null ) {
 			debugLabel.x = Std.int(footX - debugLabel.textWidth*0.5);
 			debugLabel.y = Std.int(footY+1);
 		}
+
+		// Debug bounds
+		if( debugBounds!=null ) {
+			if( invalidateDebugBounds ) {
+				invalidateDebugBounds = false;
+				renderBounds();
+			}
+			debugBounds.x = footX;
+			debugBounds.y = footY;
+		}		
 	}
+
+
+	public inline function lockControlS(t:Float) {
+		if( !destroyed )
+			cd.setS("ctrlLocked",t);
+	}
+
+	public inline function controlsLocked() {
+		return destroyed || cd.has("ctrlLocked");
+	}
+
+	function onLand(fallCHei:Float) {
+		bdy = 0;
+	}	
+
+	function hasCircularCollisions() {
+		return isAlive() && circularCollisions;
+	}
+
+	function hasCircularCollisionsWith(e:Entity) {
+		return e!=this && hasCircularCollisions() && e.hasCircularCollisions();
+	}
+
 
 	public function fixedUpdate() {} // runs at a "guaranteed" 30 fps
 
-    public function update() { // runs at an unknown fps
+	public function update() { // runs at an unknown fps
+		// Circular collisions
+		if( hasCircularCollisions() ) {
+			var d = 0.;
+			var a = 0.;
+			for(e in ALL)
+				if( hasCircularCollisionsWith(e) ) {
+					d = M.dist(centerX,centerY, e.centerX,e.centerY);
+					if( d<=radius+e.radius ) {
+						a = Math.atan2(e.centerY-centerY, e.centerX-centerX);
+						var repel = ( 1 - d / (radius+e.radius) ) * 0.02 * tmod;
+						e.dx += Math.cos(a)*repel;
+						// if( !e.onGround )
+							// e.dy += Math.sin(a)*repel;
+
+						dx -= Math.cos(a)*repel;
+						// if( !onGround )
+							// dy -= Math.sin(a)*repel;
+					}
+				}
+		}
+
 		// X
 		var steps = M.ceil( M.fabs(dxTotal*tmod) );
 		var step = dxTotal*tmod / steps;
 		while( steps>0 ) {
 			xr+=step;
 
-			// [ add X collisions checks here ]
+			if( level.hasCollision(cx+1,cy) && xr>=0.7 ) {
+				xr = 0.7;
+				dx *= Math.pow(0.5,tmod);
+			}
+
+			if( level.hasCollision(cx-1,cy) && xr<=0.3 ) {
+				xr = 0.3;
+				dx *= Math.pow(0.5,tmod);
+			}
+
 
 			while( xr>1 ) { xr--; cx++; }
 			while( xr<0 ) { xr++; cx--; }
@@ -266,12 +456,26 @@ class Entity {
 		if( M.fabs(bdx)<=0.0005*tmod ) bdx = 0;
 
 		// Y
+		if( !onGround )
+			dy += gravityMul*Const.GRAVITY * tmod;
 		var steps = M.ceil( M.fabs(dyTotal*tmod) );
 		var step = dyTotal*tmod / steps;
 		while( steps>0 ) {
 			yr+=step;
 
-			// [ add Y collisions checks here ]
+			if( onGround || dy<=0 )
+				fallHighestCy = cy+yr;
+
+			if( level.hasCollision(cx,cy-1) && yr<0.5 ) {
+				yr = 0.5;
+				dy *= Math.pow(0.5,tmod);
+			}
+
+			if( level.hasCollision(cx,cy+1) && yr>=1 ) {
+				dy = 0;
+				yr = 1;
+				onLand(cy+yr-fallHighestCy);
+			}
 
 			while( yr>1 ) { yr--; cy++; }
 			while( yr<0 ) { yr++; cy--; }
@@ -281,5 +485,27 @@ class Entity {
 		bdy*=Math.pow(bumpFrict,tmod);
 		if( M.fabs(dy)<=0.0005*tmod ) dy = 0;
 		if( M.fabs(bdy)<=0.0005*tmod ) bdy = 0;
+
+
+
+
+
+		
+
+		#if debug
+		if( ui.Console.ME.hasFlag("affect") ) {
+			var all = [];
+			for(k in affects.keys())
+				all.push( k+"=>"+M.pretty( getAffectDurationS(k) , 1) );
+			debug(all);
+		}
+
+		if( ui.Console.ME.hasFlag("bounds") && debugBounds==null )
+			enableBounds();
+
+		if( !ui.Console.ME.hasFlag("bounds") && debugBounds!=null )
+			disableBounds();
+		#end
+
     }
 }

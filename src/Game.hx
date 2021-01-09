@@ -24,7 +24,7 @@ class Game extends Process {
 
 	/** LDtk world data **/
 	public var world : World;
-	// public var hero: en.Hero;
+	public var hero: en.Hero;
 	public var curLevelIdx = 0;
 
 
@@ -41,11 +41,10 @@ class Game extends Process {
 		scroller.filter = new h2d.filter.ColorMatrix(); // force rendering for pixel perfect
 
 		world = new World();
-		// camera = new Camera();
 		fx = new Fx();
 		hud = new ui.Hud();
-
 		startLevel(0);
+
 		trace(Lang.t._("Game is ready."));
 	}
 
@@ -55,12 +54,17 @@ class Game extends Process {
 		// Cleanup
 		if( level!=null )
 			level.destroy();
+		for(e in Entity.ALL)
+			e.destroy();		
 		fx.clear();
 		gc();
 
 		// Init
 		level = new Level( data!=null ? data : world.levels[curLevelIdx] );
-		trace(level.pxWid);
+		level.attachMainEntities();
+		camera = new Camera();
+		camera.trackEntity(hero,true);
+
 		Process.resizeAll();
 		hxd.Timer.skip();
 	}
@@ -69,6 +73,13 @@ class Game extends Process {
 	/** CDB file changed on disk**/
 	public function onCdbReload() {}
 
+
+	/** Called when LDtk world changes on the disk**/
+	
+	public function onLDtkReload() {
+		world.parseJson( hxd.Res.world.world.entry.getText() );
+		startLevel(curLevelIdx);
+	}	
 
 	/** Window/app resize event **/
 	override function onResize() {

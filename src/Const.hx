@@ -5,6 +5,8 @@ class Const {
 	public static inline var GRID = 16;
 	public static inline var INFINITE = 999999;
 
+	public static inline var GRAVITY = 0.028;
+
 	/** Unique value generator **/
 	public static var NEXT_UNIQ(get,never) : Int; static inline function get_NEXT_UNIQ() return _uniq++;
 	static var _uniq = 0;
@@ -13,7 +15,7 @@ class Const {
 	public static var SCALE(get,never) : Int;
 		static inline function get_SCALE() {
 			// can be replaced with another way to determine the game scaling
-			return dn.heaps.Scaler.bestFit_i(256,256);
+			return dn.heaps.Scaler.bestFit_i(640,360);
 		}
 
 	/** Specific scaling for top UI elements **/

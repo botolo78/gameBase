@@ -40,7 +40,17 @@ class Main extends dn.Process {
             	if( Game.ME!=null )
                     Game.ME.onCdbReload();
             }, 0.2);
-        });
+		});
+
+		// Hot reloading (LDtk)
+        hxd.Res.world.world.watch(function() {
+            delayer.cancelById("ldtk");
+
+            delayer.addS("ldtk", function() {
+            	if( Game.ME!=null )
+                    Game.ME.onLDtkReload();
+            }, 0.2);
+        });		
 		#end
 
 		// Assets & data init

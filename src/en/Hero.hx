@@ -11,11 +11,19 @@ class Hero extends Entity {
 		ca = Main.ME.controller.createAccess("hero");
 		ca.setLeftDeadZone(0.2);
 
-		spr.anim.registerStateAnim("heroIdle",0 );
-		spr.anim.registerStateAnim("heroRun",5, ()-> isRunning() );
+		// Idle
+		spr.anim.registerStateAnim("heroIdle",0, ()->!isCrouching());
+		spr.anim.registerStateAnim("heroCrouchIdle",0, ()->isCrouching());
+		// Jump
 		spr.anim.registerStateAnim("heroJumpUp",5, ()-> isJumpingUp() );
 		spr.anim.registerStateAnim("heroJumpDown",5, 0.9,  ()-> isJumpingDown() );
+		// Run
+		spr.anim.registerStateAnim("heroRun",5, ()-> isRunning() && !isCrouching());		
+		spr.anim.registerStateAnim("heroCrouchRun",6, ()->M.fabs(dx)>=0.05/tmod && isCrouching() );	
 
+		// Set bound values
+		set_hei(20);
+		circularCollisions = true;
 	}
 
 	// States
@@ -23,7 +31,6 @@ class Hero extends Entity {
 	public inline function isRunning() { return isAlive() && state == Run; }
 	public inline function isJumpingUp() { return isAlive() && state == JumpUp; }
 	public inline function isJumpingDown() { return isAlive() && state == JumpDown; }
-
 
 
 
@@ -58,39 +65,11 @@ class Hero extends Entity {
 
 	public inline function isCrouching() {
 		return isAlive() && ( level.hasCollision(cx,cy-1) && level.hasCollision(cx,cy+1) || cd.has("heavyLand") );
+		// return false;
 	}
 
-	
-	override function dispose() {
-		super.dispose();
-		ca.dispose();
-	}
 
-	override function postUpdate() {
-		super.postUpdate();
-	}
-
-	override function update() {
-		super.update();
-		var spd = 0.030;
-
-		if( onGround || climbing ) {
-			cd.setS("onGroundRecently",0.1);
-			cd.setS("airControl",10);
-		}
-
-		// Walk
-		if( !controlsLocked() && ca.leftDist() > 0 ) {
-			var xPow = Math.cos( ca.leftAngle() );
-			dx += xPow * ca.leftDist() * spd * ( 0.4+0.6*cd.getRatio("airControl") ) * tmod;
-			var old = dir;
-			dir = M.fabs(xPow)>=0.1 ? M.sign(xPow) : dir;
-		}
-		else {
-			dx*=Math.pow(0.8,tmod);
-		}
-
-
+	public function jump() {
 		// Jump
 		var jumpKeyboardDown = ca.isKeyboardDown(K.Z) || ca.isKeyboardDown(K.W) || ca.isKeyboardDown(K.UP);
 		if( !controlsLocked() && ca.aPressed() && !isCrouching() && ( !climbing && cd.has("onGroundRecently") || climbing && !jumpKeyboardDown ) ) {
@@ -126,12 +105,105 @@ class Hero extends Entity {
 			if ( jumps == 2 )
 				cd.setS("doubleJump",0.2);
 		}
-
-		if( cd.has("doubleJump") && ca.aDown() ) {
-			dy = -0.1;
+		if( !cd.has("disableDoubleJump") && cd.has("doubleJump") && ca.aDown() ) {
+			dy = -0.2;
 			cd.setS("jumpForce",0.1);
 		}
 
+		// Disable double jump when too close to an obstacle above
+		if ( level.hasCollision(cx,cy-1) ) 
+			cd.setMs("disableDoubleJump",300);
+
+	}
+	
+	override function dispose() {
+		super.dispose();
+		ca.dispose();
+	}
+
+	override function postUpdate() {
+		super.postUpdate();
+	}
+
+	override function update() {
+		super.update();
+		var spd = 0.030;
+
+		if( onGround || climbing ) {
+			cd.setS("onGroundRecently",0.1);
+			cd.setS("airControl",10);
+		}
+
+		// Walk
+		if( !controlsLocked() && ca.leftDist() > 0 ) {
+			var xPow = Math.cos( ca.leftAngle() );
+			dx += xPow * ca.leftDist() * spd * ( 0.4+0.6*cd.getRatio("airControl") ) * tmod;
+			var old = dir;
+			dir = M.fabs(xPow)>=0.1 ? M.sign(xPow) : dir;
+		}
+		else {
+			dx*=Math.pow(0.8,tmod);
+		}
+
+		// Jump
+		jump();
+
+
+
+		// Entities - Additional collisions and interactions
+
+		// Interact with test entities 16x16 (solid)
+		for(e in en.TestEntity16x16.ALL) {
+
+			// Entity is on the right
+			if ( footXb == e.footXa && xr>=0.7 && footY <= e.footY && footY >= e.headY && dir == 1 ) {
+				xr = 0.7;
+				dx *= Math.pow(0.5,tmod);
+				// state = Idle;
+				if ( !cd.has("hitRight") ) {
+					cd.setMs("hitRight", 300);
+					// trace("Right");
+				}				
+			}		
+			// Entity is on the left
+			if ( footXa == e.footXb && xr<=0.3 && footY <= e.footY && footY >= e.headY && dir == -1 ) {
+				xr = 0.3;
+				dx *= Math.pow(0.5,tmod);
+				// state = Idle;
+				if ( !cd.has("hitLeft") ) {
+					cd.setMs("hitLeft", 300);
+					// trace("Left");
+				}				
+			}				
+		}	
+
+
+
+
+		// Interact with test entities 32x16 (solid)
+		for(e in en.TestEntity32x16.ALL) {
+
+			// Entity is on the right
+			if ( footXb == e.footXa && xr>=0.7 && footY <= e.footY && footY >= e.headY && dir == 1 ) {
+				xr = 0.7;
+				dx *= Math.pow(0.5,tmod);
+				// state = Idle;
+				if ( !cd.has("hitRight") ) {
+					cd.setMs("hitRight", 300);
+					// trace("Right");
+				}				
+			}		
+			// Entity is on the left
+			if ( footXa == e.footXb && xr<=0.3 && footY <= e.footY && footY >= e.headY && dir == -1 ) {
+				xr = 0.3;
+				dx *= Math.pow(0.5,tmod);
+				// state = Idle;
+				if ( !cd.has("hitLeft") ) {
+					cd.setMs("hitLeft", 300);
+					// trace("Left");
+				}				
+			}				
+		}	
 
 
 
@@ -139,10 +211,48 @@ class Hero extends Entity {
 
 
 
+
+
+
+
+		// 	// Entity is on the left
+		// 	if ( footXa == e.footXb && xr<=0.3 && dir == -1 ) {
+		// 		xr = 0.3;
+		// 		dx *= Math.pow(0.5,tmod);
+		// 		// state = Idle;
+		// 		if ( !cd.has("hitLeft") ) {
+		// 			cd.setMs("hitLeft", 300);
+		// 			trace("Left");
+		// 		}				
+		// 	}	
+			
+		// 	// Entity is below
+		// 	if ( (footX >= e.footXa && footX <= e.footXb) && footY <= e.headY ) {
+		// 		if ( !cd.has("HitBelow") ) {
+		// 			cd.setMs("HitBelow", 300);
+		// 			trace("Below");
+		// 		}
+		// 	}		
+			
+			
+		// 	// Entity is above
+		// 	// if ( (footX >= e.footXa && footX <= e.footXb) && headY <= e.footY && yr>0.2) {
+		// 	// 	if ( !cd.has("HitAbove") ) {
+		// 	// 		cd.setMs("HitAbove", 300);
+		// 	// 		cd.setMs("disableDoubleJump", 300);
+		// 	// 		yr = 0.2;
+		// 	// 		dy *= Math.pow(0.5,tmod);
+		// 	// 		trace("Above");
+		// 	// 	}
+		// 	// }				
 		
+		// }
+
+
 		#if debug
 		// debug( M.pretty(hxd.Timer.fps(),1) );
 		debug(state);
+		// debug(centerY);
 		#end
 	}
 }

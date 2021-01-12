@@ -44,8 +44,6 @@ class Game extends Process {
 		fx = new Fx();
 		hud = new ui.Hud();
 		startLevel(0);
-
-		trace(Lang.t._("Game is ready."));
 	}
 
 

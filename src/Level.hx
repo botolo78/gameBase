@@ -55,6 +55,18 @@ class Level extends dn.Process {
 		// Hero
 		var e = level.l_Entities.all_Hero[0];
 		game.hero = new en.Hero(e);
+
+		// Test Entities 16x16 (DEBUG)
+		if( level.l_Entities.all_TestEntity16x16!=null ) 
+			for( e in level.l_Entities.all_TestEntity16x16 ) {
+				new en.TestEntity16x16(e);
+				}		
+
+		// Test Entities 32x16 (DEBUG)
+		if( level.l_Entities.all_TestEntity32x16!=null ) 
+			for( e in level.l_Entities.all_TestEntity32x16 ) {
+				new en.TestEntity32x16(e);
+				}						
 	}	
 
 
@@ -103,7 +115,10 @@ class Level extends dn.Process {
 		// return !isValid(cx,cy) ? true : level.l_Collisions.getInt(cx,cy)==0;
 		return !isValid(cx,cy)
 		? true
-		: level.l_Collisions.getInt(cx,cy)==0 || 
+		: level.l_Collisions.getInt(cx,cy)==0 || // Ground
+		level.l_Collisions.getInt(cx,cy)==1 || 	// Briks
+		level.l_Collisions.getInt(cx,cy)==2 ||  // Pipes
+		level.l_Collisions.getInt(cx,cy)==3 ||  // Platform
 		extraCollMap.exists(coordId(cx,cy)); // Collision with other entities
 	}
 
@@ -118,9 +133,14 @@ class Level extends dn.Process {
 
 	function render() {
 		root.removeChildren();		
+		
 		// Render collisions
 		var tg_collisions = new h2d.TileGroup(tilesetSource, root);
 		level.l_Collisions.renderInTileGroup(tg_collisions, false);
+
+		// Render decorations
+		var tg_decorations = new h2d.TileGroup(tilesetSource, root);
+		level.l_Decorations.renderInTileGroup(tg_decorations, false);	
 
 	}
 

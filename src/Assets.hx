@@ -18,7 +18,8 @@ class Assets {
 		initDone = true;
 
 		ldtkTilesets = [
-			"Tiles" => hxd.Res.world.SunnyLand_by_Ansimuz_extended.toTile(),
+			// "Tiles" => hxd.Res.world.SunnyLand_by_Ansimuz_extended.toTile(),
+			"Tiles" => hxd.Res.world.monochrome_tilemap.toTile(),
 		];		
 
 		fontPixel = hxd.Res.fonts.minecraftiaOutline.toFont();

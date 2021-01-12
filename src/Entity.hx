@@ -53,10 +53,12 @@ class Entity {
 	// Multiplier applied on each frame to bump velocities
 	public var bumpFrict = 0.93;
 	public var hei : Float = Const.GRID;
+	public var wid : Float = Const.GRID;
 	public var radius = Const.GRID*0.5;
 
 	// Debug bound
 	inline function set_hei(v) { invalidateDebugBounds=true;  return hei=v; }
+	inline function set_wid(v) { invalidateDebugBounds=true;  return wid=v; }
 	inline function set_radius(v) { invalidateDebugBounds=true;  return radius=v; }
 	public var circularCollisions = false;
 
@@ -70,6 +72,7 @@ class Entity {
 	public var sprSquashY = 1.0;	
 	public var entityVisible = true;
 
+	// Visual components
     public var spr : HSprite;
 	public var colorAdd : h3d.Vector;
 
@@ -80,6 +83,8 @@ class Entity {
 
 	// Coordinates getters, for easier gameplay coding
 	public var footX(get,never) : Float; inline function get_footX() return (cx+xr)*Const.GRID;
+	public var footXa(get,null) : Float; inline function get_footXa() return (cx)*Const.GRID;
+	public var footXb(get,null) : Float; inline function get_footXb() return (cx)*Const.GRID+wid;
 	public var footY(get,never) : Float; inline function get_footY() return (cy+yr)*Const.GRID;
 	public var headX(get,never) : Float; inline function get_headX() return footX;
 	public var headY(get,never) : Float; inline function get_headY() return footY-hei;
@@ -157,6 +162,8 @@ class Entity {
 
 	public inline function distCase(e:Entity) return M.dist(cx+xr, cy+yr, e.cx+e.xr, e.cy+e.yr);
 	public inline function distCaseFree(tcx:Int, tcy:Int, ?txr=0.5, ?tyr=0.5) return M.dist(cx+xr, cy+yr, tcx+txr, tcy+tyr);
+	public inline function distCaseX(e:Entity) return M.fabs( (cx+xr) - (e.cx+e.xr) );
+	public inline function distCaseY(e:Entity) return M.fabs( (cy+yr) - (e.cy+e.yr) );	
 
 	public inline function distPx(e:Entity) return M.dist(footX, footY, e.footX, e.footY);
 	public inline function distPxFree(x:Float, y:Float) return M.dist(footX, footY, x, y);
@@ -382,6 +389,7 @@ class Entity {
 		sprSquashX += (1-sprSquashX) * 0.2;
 		sprSquashY += (1-sprSquashY) * 0.2;
 
+
 		// Debug label
 		if( debugLabel!=null ) {
 			debugLabel.x = Std.int(footX - debugLabel.textWidth*0.5);
@@ -437,15 +445,19 @@ class Entity {
 	}
 
 
+	function onDie() {
+		destroy();
+	}
+
 	public function fixedUpdate() {} // runs at a "guaranteed" 30 fps
 
 	public function update() { // runs at an unknown fps
 
 		// States
 
-		if ( onGround && dx == 0 && dy == 0 && bdx ==0 && bdy == 0)
+		if ( dx == 0 && dy == 0 && bdx == 0 && bdy == 0 && M.fabs(dx)<=0.05/tmod)
 			state = Idle;
-		if ( onGround && dx != 0 && dy == 0 && bdx ==0 && bdy == 0)
+		if ( onGround && dx != 0 && dy == 0 && bdx == 0 && bdy == 0 && M.fabs(dx)>=0.05/tmod)
 			state = Run;	
 		if ( !onGround && dy < 0)
 			state = JumpUp;			
@@ -453,25 +465,25 @@ class Entity {
 			state = JumpDown;					
 
 		// Circular collisions
-		if( hasCircularCollisions() ) {
-			var d = 0.;
-			var a = 0.;
-			for(e in ALL)
-				if( hasCircularCollisionsWith(e) ) {
-					d = M.dist(centerX,centerY, e.centerX,e.centerY);
-					if( d<=radius+e.radius ) {
-						a = Math.atan2(e.centerY-centerY, e.centerX-centerX);
-						var repel = ( 1 - d / (radius+e.radius) ) * 0.02 * tmod;
-						e.dx += Math.cos(a)*repel;
-						// if( !e.onGround )
-							// e.dy += Math.sin(a)*repel;
+		// if( hasCircularCollisions() ) {
+		// 	var d = 0.;
+		// 	var a = 0.;
+		// 	for(e in ALL)
+		// 		if( hasCircularCollisionsWith(e) ) {
+		// 			d = M.dist(centerX,centerY, e.centerX,e.centerY);
+		// 			if( d<=radius+e.radius ) {
+		// 				a = Math.atan2(e.centerY-centerY, e.centerX-centerX);
+		// 				var repel = ( 1 - d / (radius+e.radius) ) * 0.02 * tmod;
+		// 				e.dx += Math.cos(a)*repel;
+		// 				// if( !e.onGround )
+		// 					// e.dy += Math.sin(a)*repel;
 
-						dx -= Math.cos(a)*repel;
-						// if( !onGround )
-							// dy -= Math.sin(a)*repel;
-					}
-				}
-		}
+		// 				dx -= Math.cos(a)*repel;
+		// 				// if( !onGround )
+		// 					// dy -= Math.sin(a)*repel;
+		// 			}
+		// 		}
+		// }
 
 		// X
 		var steps = M.ceil( M.fabs(dxTotal*tmod) );
@@ -479,14 +491,20 @@ class Entity {
 		while( steps>0 ) {
 			xr+=step;
 
+			// Right
 			if( level.hasCollision(cx+1,cy) && xr>=0.7 ) {
 				xr = 0.7;
 				dx *= Math.pow(0.5,tmod);
+				if (dy == 0)
+					state = Idle;
 			}
 
+			// Left
 			if( level.hasCollision(cx-1,cy) && xr<=0.3 ) {
 				xr = 0.3;
 				dx *= Math.pow(0.5,tmod);
+				if (dy == 0)
+					state = Idle;
 			}
 
 
@@ -510,11 +528,13 @@ class Entity {
 			if( onGround || dy<=0 )
 				fallHighestCy = cy+yr;
 
-			if( !climbing && level.hasCollision(cx,cy-1) && yr<0.5 ) {
-				yr = 0.5;
+			// Detect collision with ceiling
+			if( !climbing && level.hasCollision(cx,cy-1) && yr<1 ) {
+				yr = 1;
 				dy *= Math.pow(0.5,tmod);
 			}
 
+			// Detect collision with ground
 			if( level.hasCollision(cx,cy+1) && yr>=1 ) {
 				dy = 0;
 				yr = 1;

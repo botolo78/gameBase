@@ -137,12 +137,29 @@ class Game extends Process {
 		if( !ui.Console.ME.isActive() && !ui.Modal.hasAny() ) {
 			#if hl
 			// Exit
-			if( ca.isKeyboardPressed(Key.ESCAPE) )
-				if( !cd.hasSetS("exitWarn",3) )
-					trace(Lang.t._("Press ESCAPE again to exit."));
+			if( ca.isKeyboardPressed(Key.ESCAPE) ) {
+				if( !cd.hasSetS("exitWarn",3) ) {
+					var popup = new ui.Popup("Press ESC again to exit");
+					// Assets.SLIB.popup(0.5);
+					delayer.addS(()->{
+						popup.dispose();
+					}, 3);			
+				}		
 				else
 					hxd.System.exit();
+			}
 			#end
+
+			#if js
+			// Sorry, cannot exit
+			if( ca.isKeyboardPressed(Key.ESCAPE) ) {
+				var popup = new ui.Text("Close your browser to exit :)");
+				Assets.SLIB.popup(0.5);
+				delayer.addS(()->{
+					popup.dispose();
+				}, 3);			
+			}
+			#end	
 
 			// Restart
 			if( ca.selectPressed() )

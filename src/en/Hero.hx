@@ -157,7 +157,6 @@ class Hero extends Entity {
 			if ( footXb == e.footXa && xr>=0.7 && footY <= e.footY && footY >= e.headY && dir == 1 ) {
 				xr = 0.7;
 				dx *= Math.pow(0.5,tmod);
-				// state = Idle;
 				if ( !cd.has("hitRight") ) {
 					cd.setMs("hitRight", 300);
 					// trace("Right");
@@ -167,7 +166,6 @@ class Hero extends Entity {
 			if ( footXa == e.footXb && xr<=0.3 && footY <= e.footY && footY >= e.headY && dir == -1 ) {
 				xr = 0.3;
 				dx *= Math.pow(0.5,tmod);
-				// state = Idle;
 				if ( !cd.has("hitLeft") ) {
 					cd.setMs("hitLeft", 300);
 					// trace("Left");
@@ -201,7 +199,6 @@ class Hero extends Entity {
 			if ( footXb == e.footXa && xr>=0.7 && footY <= e.footY && footY >= e.headY && dir == 1 ) {
 				xr = 0.7;
 				dx *= Math.pow(0.5,tmod);
-				// state = Idle;
 				if ( !cd.has("hitRight") ) {
 					cd.setMs("hitRight", 300);
 					// trace("Right");
@@ -211,7 +208,6 @@ class Hero extends Entity {
 			if ( footXa == e.footXb && xr<=0.3 && footY <= e.footY && footY >= e.headY && dir == -1 ) {
 				xr = 0.3;
 				dx *= Math.pow(0.5,tmod);
-				// state = Idle;
 				if ( !cd.has("hitLeft") ) {
 					cd.setMs("hitLeft", 300);
 					// trace("Left");

@@ -6,141 +6,148 @@ filter: Linear,Linear
 repeat: none
 empty
   rotate: false
-  xy: 123, 5
+  xy: 41, 99
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 fxCircle0
   rotate: false
-  xy: 1, 46
+  xy: 79, 104
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 fxDot0
   rotate: false
-  xy: 123, 1
+  xy: 41, 95
   size: 3, 3
   orig: 3, 3
   offset: 0, 0
   index: -1
 fxImpact0
   rotate: false
-  xy: 112, 42
+  xy: 50, 38
   size: 15, 9
   orig: 15, 9
   offset: 0, 0
   index: -1
 fxLine0
   rotate: false
-  xy: 80, 1
+  xy: 50, 13
   size: 33, 3
   orig: 33, 3
   offset: 0, 0
   index: -1
 fxLineDir0
   rotate: false
-  xy: 80, 5
+  xy: 50, 17
   size: 33, 3
   orig: 33, 3
   offset: 0, 0
   index: -1
 fxSmallCircle0
   rotate: false
-  xy: 114, 7
+  xy: 34, 95
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
   index: -1
 fxSmoke0
   rotate: false
-  xy: 1, 1
+  xy: 1, 50
   size: 44, 44
   orig: 44, 44
   offset: 0, 0
   index: -1
 fxTail0
   rotate: false
-  xy: 46, 1
+  xy: 50, 1
   size: 33, 11
   orig: 33, 11
   offset: 0, 0
   index: -1
 heroCrouchIdle0
   rotate: false
-  xy: 80, 9
+  xy: 46, 50
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 heroCrouchRun0
   rotate: false
-  xy: 46, 13
+  xy: 46, 83
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 heroIdle0
   rotate: false
-  xy: 79, 42
+  xy: 1, 95
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 heroJumpDown0
   rotate: false
-  xy: 1, 75
+  xy: 79, 38
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 heroJumpUp0
   rotate: false
-  xy: 34, 46
+  xy: 84, 1
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 heroRun0
   rotate: false
-  xy: 34, 79
+  xy: 79, 71
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 pixel
   rotate: false
-  xy: 125, 5
+  xy: 34, 112
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 testEntity16x16
   rotate: false
-  xy: 67, 75
+  xy: 96, 104
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 testEntity32x16
   rotate: false
-  xy: 1, 108
+  xy: 50, 21
   size: 32, 16
   orig: 32, 16
   offset: 0, 0
   index: -1
 uiBar
   rotate: false
-  xy: 121, 7
+  xy: 34, 108
   size: 6, 3
   orig: 6, 3
   offset: 0, 0
   index: -1
 uiBarBg
   rotate: false
-  xy: 114, 1
+  xy: 34, 102
   size: 8, 5
   orig: 8, 5
+  offset: 0, 0
+  index: -1
+uiBox
+  rotate: false
+  xy: 1, 1
+  size: 48, 48
+  orig: 48, 48
   offset: 0, 0
   index: -1

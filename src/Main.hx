@@ -69,7 +69,8 @@ class Main extends dn.Process {
 		controller.bind(A, Key.UP, Key.Z, Key.W);
 		controller.bind(B, Key.ENTER, Key.NUMPAD_ENTER);
 		controller.bind(SELECT, Key.R);
-		controller.bind(START, Key.N);
+		controller.bind(START, Key.N);		
+
 
 		#if js
 		// Optional helper that shows a "Click to start/continue" message when the game looses focus

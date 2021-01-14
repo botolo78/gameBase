@@ -1,3 +1,5 @@
+import en.Bumper;
+
 class Level extends dn.Process {
 	var game(get,never) : Game; inline function get_game() return Game.ME;
 	var fx(get,never) : Fx; inline function get_fx() return Game.ME.fx;
@@ -55,6 +57,12 @@ class Level extends dn.Process {
 		// Hero
 		var e = level.l_Entities.all_Hero[0];
 		game.hero = new en.Hero(e);
+
+		// Bumpers
+		if( level.l_Entities.all_Bumper!=null ) 
+			for( e in level.l_Entities.all_Bumper ) {
+				new en.Bumper(e);
+				}	
 
 		// Test Entities 16x16 (DEBUG)
 		if( level.l_Entities.all_TestEntity16x16!=null ) 
@@ -133,6 +141,8 @@ class Level extends dn.Process {
 
 	function render() {
 		root.removeChildren();		
+		// var atlasTile = Assets.ldtkTilesets.get( level.l_Collisions.tileset.identifier );	
+		// trace(atlasTile);
 		
 		// Render collisions
 		var tg_collisions = new h2d.TileGroup(tilesetSource, root);
@@ -141,6 +151,10 @@ class Level extends dn.Process {
 		// Render decorations
 		var tg_decorations = new h2d.TileGroup(tilesetSource, root);
 		level.l_Decorations.renderInTileGroup(tg_decorations, false);	
+
+		// Stamps
+		var tilesStamps = new h2d.TileGroup(tilesetSource, root);
+		level.l_Stamps.renderInTileGroup(tilesStamps, false);
 
 	}
 

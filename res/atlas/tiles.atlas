@@ -4,51 +4,128 @@ size: 128,128
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
+bumperOff
+  rotate: false
+  xy: 79, 65
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+bumperOut
+  rotate: false
+  xy: 96, 65
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
 empty
   rotate: false
-  xy: 41, 99
+  xy: 50, 48
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 fxCircle0
   rotate: false
-  xy: 79, 104
+  xy: 100, 82
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 fxDot0
   rotate: false
-  xy: 41, 95
+  xy: 105, 34
   size: 3, 3
   orig: 3, 3
   offset: 0, 0
   index: -1
+fxDust0
+  rotate: false
+  xy: 91, 44
+  size: 5, 3
+  orig: 5, 3
+  offset: 0, 0
+  index: -1
+fxDust1
+  rotate: false
+  xy: 100, 34
+  size: 4, 3
+  orig: 4, 3
+  offset: 0, 0
+  index: -1
+fxDust2
+  rotate: false
+  xy: 80, 89
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+fxDust3
+  rotate: false
+  xy: 85, 89
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+fxFirework0
+  rotate: false
+  xy: 97, 38
+  size: 9, 9
+  orig: 9, 9
+  offset: 0, 0
+  index: -1
 fxImpact0
   rotate: false
-  xy: 50, 38
+  xy: 50, 34
   size: 15, 9
   orig: 15, 9
   offset: 0, 0
   index: -1
+fxLeaf0
+  rotate: false
+  xy: 75, 38
+  size: 5, 5
+  orig: 5, 5
+  offset: 0, 0
+  index: -1
+fxLeaf1
+  rotate: false
+  xy: 81, 38
+  size: 5, 5
+  orig: 5, 5
+  offset: 0, 0
+  index: -1
+fxLeaf2
+  rotate: false
+  xy: 87, 38
+  size: 4, 5
+  orig: 4, 5
+  offset: 0, 0
+  index: -1
+fxLeaf3
+  rotate: false
+  xy: 92, 38
+  size: 4, 5
+  orig: 4, 5
+  offset: 0, 0
+  index: -1
 fxLine0
   rotate: false
-  xy: 50, 13
+  xy: 50, 44
   size: 33, 3
   orig: 33, 3
   offset: 0, 0
   index: -1
 fxLineDir0
   rotate: false
-  xy: 50, 17
+  xy: 66, 34
   size: 33, 3
   orig: 33, 3
   offset: 0, 0
   index: -1
 fxSmallCircle0
   rotate: false
-  xy: 34, 95
+  xy: 80, 82
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
@@ -62,84 +139,91 @@ fxSmoke0
   index: -1
 fxTail0
   rotate: false
-  xy: 50, 1
+  xy: 46, 83
   size: 33, 11
   orig: 33, 11
   offset: 0, 0
   index: -1
+fxZ
+  rotate: false
+  xy: 107, 38
+  size: 7, 7
+  orig: 7, 7
+  offset: 0, 0
+  index: -1
 heroCrouchIdle0
-  rotate: false
-  xy: 46, 50
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-heroCrouchRun0
-  rotate: false
-  xy: 46, 83
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-heroIdle0
   rotate: false
   xy: 1, 95
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
+heroCrouchRun0
+  rotate: false
+  xy: 34, 95
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+heroIdle0
+  rotate: false
+  xy: 46, 50
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
 heroJumpDown0
   rotate: false
-  xy: 79, 38
+  xy: 67, 95
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 heroJumpUp0
   rotate: false
-  xy: 84, 1
+  xy: 50, 1
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 heroRun0
   rotate: false
-  xy: 79, 71
+  xy: 83, 1
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 pixel
   rotate: false
-  xy: 34, 112
+  xy: 52, 48
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 testEntity16x16
   rotate: false
-  xy: 96, 104
+  xy: 100, 99
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 testEntity32x16
   rotate: false
-  xy: 50, 21
+  xy: 79, 48
   size: 32, 16
   orig: 32, 16
   offset: 0, 0
   index: -1
 uiBar
   rotate: false
-  xy: 34, 108
+  xy: 84, 44
   size: 6, 3
   orig: 6, 3
   offset: 0, 0
   index: -1
 uiBarBg
   rotate: false
-  xy: 34, 102
+  xy: 66, 38
   size: 8, 5
   orig: 8, 5
   offset: 0, 0

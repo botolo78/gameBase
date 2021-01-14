@@ -21,8 +21,9 @@ class Hero extends Entity {
 		spr.anim.registerStateAnim("heroRun",5, ()-> isRunning() && !isCrouching());		
 		spr.anim.registerStateAnim("heroCrouchRun",6, ()->M.fabs(dx)>=0.05/tmod && isCrouching() );	
 
-		// Set bound values
+		// Set bound values (to be used for non solid entities)
 		circularCollisions = true;
+
 	}
 
 	// States
@@ -111,6 +112,14 @@ class Hero extends Entity {
 		// Disable double jump when too close to an obstacle above
 		if ( level.hasCollision(cx,cy-1) ) 
 			cd.setMs("disableDoubleJump",300);
+
+
+		else if( cd.has("bumperJump") ) {
+			dy += -0.07*tmod;
+		}
+		else if( cd.has("extraJump") ) {
+			dy += -0.04*tmod;
+		}
 
 	}
 	
@@ -231,9 +240,31 @@ class Hero extends Entity {
 		}	
 
 
+
+
+		// Circular collisions
+		if( hasCircularCollisions() ) {
+			var d = 0.;
+
+			// Interact with bumpers
+			for(e in en.Bumper.ALL) {
+				if( !cd.has("dead") && !cd.has("dieing") && e.isAlive() && !e.cd.has("open") && hasCircularCollisionsWith(e) ) {
+					d = M.dist(centerX,centerY, e.centerX,e.centerY);
+					if( d<=(radius+e.radius)-e.wid/2 ) {
+						e.onUse();
+						cancelVelocities();
+						cd.setS("bumperJump",0.2);
+						dy = -0.8;
+					}
+				}
+			}
+		}
+
+
+
 		#if debug
 		// debug( M.pretty(hxd.Timer.fps(),1) );
-		debug(state);
+		// debug(state);
 		#end
 	}
 }

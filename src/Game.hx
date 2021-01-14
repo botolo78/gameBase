@@ -22,6 +22,11 @@ class Game extends Process {
 	/** UI **/
 	public var hud : ui.Hud;
 
+	/** Slow mo internal values**/
+	var curGameSpeed = 1.0;
+	var slowMos : Map<String, { id:String, t:Float, f:Float }> = new Map();
+
+
 	/** LDtk world data **/
 	public var world : World;
 	public var hero: en.Hero;
@@ -106,6 +111,53 @@ class Game extends Process {
 		gc();
 	}
 
+	/**
+		Start a cumulative slow-motion effect that will affect `tmod` value in this Process
+		and its children.
+
+		@param sec Realtime second duration of this slowmo
+		@param speedFactor Cumulative multiplier to the Process `tmod`
+	**/
+	public function addSlowMo(id:String, sec:Float, speedFactor=0.3) {
+		if( slowMos.exists(id) ) {
+			var s = slowMos.get(id);
+			s.f = speedFactor;
+			s.t = M.fmax(s.t, sec);
+		}
+		else
+			slowMos.set(id, { id:id, t:sec, f:speedFactor });
+	}
+
+
+	function updateSlowMos() {
+		// Timeout active slow-mos
+		for(s in slowMos) {
+			s.t -= utmod * 1/Const.FPS;
+			if( s.t<=0 )
+				slowMos.remove(s.id);
+		}
+
+		// Update game speed
+		var targetGameSpeed = 1.0;
+		for(s in slowMos)
+			targetGameSpeed*=s.f;
+		curGameSpeed += (targetGameSpeed-curGameSpeed) * (targetGameSpeed>curGameSpeed ? 0.2 : 0.6);
+
+		if( M.fabs(curGameSpeed-targetGameSpeed)<=0.001 )
+			curGameSpeed = targetGameSpeed;
+	}
+
+
+	/**
+		Pause briefly the game for 1 frame: very useful for impactful moments,
+		like when hitting an opponent in Street Fighter ;)
+	**/
+	public inline function stopFrame() {
+		ucd.setS("stopFrame", 0.2);
+	}
+
+
+
 	/** Loop that happens at the beginning of the frame **/
 	override function preUpdate() {
 		super.preUpdate();
@@ -116,6 +168,12 @@ class Game extends Process {
 	/** Loop that happens at the end of the frame **/
 	override function postUpdate() {
 		super.postUpdate();
+
+		// Update slow-motions
+		updateSlowMos();
+		baseTimeMul = ( 0.2 + 0.8*curGameSpeed ) * ( ucd.has("stopFrame") ? 0.3 : 1 );
+		Assets.tiles.tmod = tmod;
+
 
 		for(e in Entity.ALL) if( !e.destroyed ) e.postUpdate();
 		gc();

@@ -9,6 +9,7 @@ class Entity {
 	public var destroyed(default,null) = false;
 	public var ftime(get,never) : Float; inline function get_ftime() return game.ftime;
 	public var tmod(get,never) : Float; inline function get_tmod() return Game.ME.tmod;
+	var utmod(get,never) : Float; inline function get_utmod() return Game.ME.utmod;
 	public var hud(get,never) : ui.Hud; inline function get_hud() return Game.ME.hud;
 	public var hero(get,never) : en.Hero; inline function get_hero() return Game.ME.hero;
 
@@ -19,6 +20,9 @@ class Entity {
 
 	/** Cooldowns **/
 	public var cd : dn.Cooldown;
+
+	/** Cooldowns, unaffected by slowmo (ie. always in realtime) **/
+	public var ucd : dn.Cooldown;
 
 	/** Temporary gameplay affects **/
 	var affects : Map<Affect,Float> = new Map();	
@@ -102,6 +106,7 @@ class Entity {
 		ALL.push(this);
 
 		cd = new dn.Cooldown(Const.FPS);
+		ucd = new dn.Cooldown(Const.FPS);
         setPosCase(x,y);
 
         spr = new HSprite(Assets.tiles);
@@ -375,7 +380,9 @@ class Entity {
 	}	
 
     public function preUpdate() {
+		ucd.update(utmod);
 		cd.update(tmod);
+		updateAffects();
 		updateActions();
     }
 

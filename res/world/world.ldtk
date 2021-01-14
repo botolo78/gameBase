@@ -962,8 +962,8 @@
 					"entityInstances": [
 						{ "__identifier": "TestEntity16x16", "__grid": [2,5], "__tile": null, "defUid": 19, "px": [32,80], "fieldInstances": [] },
 						{ "__identifier": "Hero", "__grid": [2,7], "__tile": null, "defUid": 22, "px": [32,112], "fieldInstances": [] },
-						{ "__identifier": "TestEntity32x16", "__grid": [4,5], "__tile": null, "defUid": 21, "px": [64,80], "fieldInstances": [] },
-						{ "__identifier": "TestEntity16x16", "__grid": [7,7], "__tile": null, "defUid": 19, "px": [112,112], "fieldInstances": [] }
+						{ "__identifier": "TestEntity32x16", "__grid": [5,4], "__tile": null, "defUid": 21, "px": [80,64], "fieldInstances": [] },
+						{ "__identifier": "TestEntity16x16", "__grid": [6,7], "__tile": null, "defUid": 19, "px": [96,112], "fieldInstances": [] }
 					]
 				},
 				{

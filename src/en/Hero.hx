@@ -22,7 +22,6 @@ class Hero extends Entity {
 		spr.anim.registerStateAnim("heroCrouchRun",6, ()->M.fabs(dx)>=0.05/tmod && isCrouching() );	
 
 		// Set bound values
-		// set_hei(20);
 		circularCollisions = true;
 	}
 
@@ -66,12 +65,10 @@ class Hero extends Entity {
 
 	public inline function isCrouching() {
 		return isAlive() && ( level.hasCollision(cx,cy-1) && level.hasCollision(cx,cy+1) || cd.has("heavyLand") );
-		// return false;
 	}
 
 
 	public function jump() {
-		// Jump
 		var jumpKeyboardDown = ca.isKeyboardDown(K.Z) || ca.isKeyboardDown(K.W) || ca.isKeyboardDown(K.UP);
 		if( !controlsLocked() && ca.aPressed() && !isCrouching() && ( !climbing && cd.has("onGroundRecently") || climbing && !jumpKeyboardDown ) ) {
 			if( climbing ) {
@@ -241,7 +238,6 @@ class Hero extends Entity {
 		#if debug
 		// debug( M.pretty(hxd.Timer.fps(),1) );
 		debug(state);
-		debug(cy);
 		#end
 	}
 }

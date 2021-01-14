@@ -11,10 +11,7 @@ class TestEntity32x16 extends Entity {
 		dy = 0;
 		spr.set("testEntity32x16");
 		game.scroller.add(spr, Const.DP_BG);
-
-		// Set bound values and collision
 		set_wid(32);
-		// circularCollisions = true;
 		level.setExtraCollision(cx,cy, true);
 		level.setExtraCollision(cx+1,cy, true);
 		spr.setCenterRatio(0.25,1);

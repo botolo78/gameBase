@@ -11,11 +11,7 @@ class TestEntity16x16 extends Entity {
 		dy = 0;
 		spr.set("testEntity16x16");
 		game.scroller.add(spr, Const.DP_BG);
-
-		// Set bound values and collision
-		// circularCollisions = true;
 		level.setExtraCollision(cx,cy, true);
-		trace(cy);
 	}
 
 	public function delayedDie() {

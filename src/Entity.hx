@@ -407,7 +407,11 @@ class Entity {
 		}		
 	}
 
-
+	public function finalUpdate() {
+		prevFrameFootX = footX;
+		prevFrameFootY = footY;
+	}
+	
 	public inline function lockControlS(t:Float) {
 		if( !destroyed )
 			cd.setS("ctrlLocked",t);

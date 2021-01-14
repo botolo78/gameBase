@@ -5,7 +5,7 @@ class Const {
 	public static inline var GRID = 16;
 	public static inline var INFINITE = 999999;
 
-	public static inline var GRAVITY = 0.028;
+	public static inline var GRAVITY = 0.032;
 
 	/** Unique value generator **/
 	public static var NEXT_UNIQ(get,never) : Int; static inline function get_NEXT_UNIQ() return _uniq++;

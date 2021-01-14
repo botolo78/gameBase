@@ -22,7 +22,7 @@ class Hero extends Entity {
 		spr.anim.registerStateAnim("heroCrouchRun",6, ()->M.fabs(dx)>=0.05/tmod && isCrouching() );	
 
 		// Set bound values
-		set_hei(20);
+		// set_hei(20);
 		circularCollisions = true;
 	}
 
@@ -61,6 +61,7 @@ class Hero extends Entity {
 		}
 		else if( fallCHei>=3 )
 			lockControlS(0.03*impact);
+		cd.setF("justLanded",5);
 	}
 
 	public inline function isCrouching() {
@@ -127,7 +128,7 @@ class Hero extends Entity {
 
 	override function update() {
 		super.update();
-		var spd = 0.030;
+		var spd = 0.025;
 
 		if( onGround || climbing ) {
 			cd.setS("onGroundRecently",0.1);
@@ -174,7 +175,23 @@ class Hero extends Entity {
 					cd.setMs("hitLeft", 300);
 					// trace("Left");
 				}				
-			}				
+			}					
+			// Entity is above
+			if ( (footX >= e.footXa && footX <= e.footXb) && headY == e.footY && dy < 0 ) {
+				if ( !cd.has("HitAbove") ) {
+					cd.setMs("HitAbove", 300);
+					dy *= Math.pow(0.5,tmod);
+					// trace("Above");
+				}
+			}	
+			// Entity is below
+			if ( (footX >= e.footXa && footX <= e.footXb) && footY <= e.headY && cy+1 == e.cy && cd.has("justLanded") ) {
+				if ( !cd.has("HitBelow") ) {
+					cd.setMs("HitBelow", 300);
+					// trace("Below");
+				}
+			}							
+
 		}	
 
 
@@ -203,56 +220,28 @@ class Hero extends Entity {
 					// trace("Left");
 				}				
 			}				
+			// Entity is above
+			if ( (footX >= e.footXa && footX <= e.footXb) && headY == e.footY && dy < 0 ) {
+				if ( !cd.has("HitAbove") ) {
+					cd.setMs("HitAbove", 300);
+					dy *= Math.pow(0.5,tmod);
+					// trace("Above");
+				}
+			}	
+			// Entity is below
+			if ( (footX >= e.footXa && footX <= e.footXb) && footY <= e.headY && cy+1 == e.cy && cd.has("justLanded") ) {
+				if ( !cd.has("HitBelow") ) {
+					cd.setMs("HitBelow", 300);
+					// trace("Below");
+				}
+			}								
 		}	
-
-
-
-
-
-
-
-
-
-
-
-		// 	// Entity is on the left
-		// 	if ( footXa == e.footXb && xr<=0.3 && dir == -1 ) {
-		// 		xr = 0.3;
-		// 		dx *= Math.pow(0.5,tmod);
-		// 		// state = Idle;
-		// 		if ( !cd.has("hitLeft") ) {
-		// 			cd.setMs("hitLeft", 300);
-		// 			trace("Left");
-		// 		}				
-		// 	}	
-			
-		// 	// Entity is below
-		// 	if ( (footX >= e.footXa && footX <= e.footXb) && footY <= e.headY ) {
-		// 		if ( !cd.has("HitBelow") ) {
-		// 			cd.setMs("HitBelow", 300);
-		// 			trace("Below");
-		// 		}
-		// 	}		
-			
-			
-		// 	// Entity is above
-		// 	// if ( (footX >= e.footXa && footX <= e.footXb) && headY <= e.footY && yr>0.2) {
-		// 	// 	if ( !cd.has("HitAbove") ) {
-		// 	// 		cd.setMs("HitAbove", 300);
-		// 	// 		cd.setMs("disableDoubleJump", 300);
-		// 	// 		yr = 0.2;
-		// 	// 		dy *= Math.pow(0.5,tmod);
-		// 	// 		trace("Above");
-		// 	// 	}
-		// 	// }				
-		
-		// }
 
 
 		#if debug
 		// debug( M.pretty(hxd.Timer.fps(),1) );
 		debug(state);
-		// debug(centerY);
+		debug(cy);
 		#end
 	}
 }

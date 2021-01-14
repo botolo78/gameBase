@@ -15,6 +15,7 @@ class TestEntity16x16 extends Entity {
 		// Set bound values and collision
 		// circularCollisions = true;
 		level.setExtraCollision(cx,cy, true);
+		trace(cy);
 	}
 
 	public function delayedDie() {

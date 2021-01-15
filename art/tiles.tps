@@ -199,6 +199,44 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">export_tiles/doorClosed.png</key>
+            <key type="filename">export_tiles/doorKeyClosed.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>4,8,8,16</rect>
+                <key>scale9Paddings</key>
+                <rect>4,8,8,16</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">export_tiles/doorKeyOpen.png</key>
+            <key type="filename">export_tiles/doorOpen.png</key>
+            <key type="filename">export_tiles/heroCrouchIdle0.png</key>
+            <key type="filename">export_tiles/heroCrouchRun0.png</key>
+            <key type="filename">export_tiles/heroIdle0.png</key>
+            <key type="filename">export_tiles/heroJumpDown0.png</key>
+            <key type="filename">export_tiles/heroJumpUp0.png</key>
+            <key type="filename">export_tiles/heroRun0.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>8,8,16,16</rect>
+                <key>scale9Paddings</key>
+                <rect>8,8,16,16</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">export_tiles/empty.png</key>
             <key type="filename">export_tiles/pixel.png</key>
             <struct type="IndividualSpriteSettings">
@@ -414,27 +452,9 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">export_tiles/heroCrouchIdle0.png</key>
-            <key type="filename">export_tiles/heroCrouchRun0.png</key>
-            <key type="filename">export_tiles/heroIdle0.png</key>
-            <key type="filename">export_tiles/heroJumpDown0.png</key>
-            <key type="filename">export_tiles/heroJumpUp0.png</key>
-            <key type="filename">export_tiles/heroRun0.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>spriteScale</key>
-                <double>1</double>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>8,8,16,16</rect>
-                <key>scale9Paddings</key>
-                <rect>8,8,16,16</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">export_tiles/testEntity32x16.png</key>
+            <key type="filename">export_tiles/triggerOff.png</key>
+            <key type="filename">export_tiles/triggerOn.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

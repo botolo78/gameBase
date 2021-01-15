@@ -58,6 +58,24 @@ class Level extends dn.Process {
 		var e = level.l_Entities.all_Hero[0];
 		game.hero = new en.Hero(e);
 
+		// Doors
+		if( level.l_Entities.all_Door!=null ) 
+			for( e in level.l_Entities.all_Door ) {
+				new en.Door(e);
+				}	
+
+		// Doors
+		if( level.l_Entities.all_Text!=null ) 
+			for( e in level.l_Entities.all_Text ) {
+				new en.Text(e);
+				}					
+
+		// Triggers
+		if( level.l_Entities.all_Trigger!=null ) 
+			for( e in level.l_Entities.all_Trigger ) {
+				new en.Trigger(e);
+				}	
+
 		// Bumpers
 		if( level.l_Entities.all_Bumper!=null ) 
 			for( e in level.l_Entities.all_Bumper ) {
@@ -141,8 +159,6 @@ class Level extends dn.Process {
 
 	function render() {
 		root.removeChildren();		
-		// var atlasTile = Assets.ldtkTilesets.get( level.l_Collisions.tileset.identifier );	
-		// trace(atlasTile);
 		
 		// Render collisions
 		var tg_collisions = new h2d.TileGroup(tilesetSource, root);

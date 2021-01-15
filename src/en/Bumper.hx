@@ -25,6 +25,7 @@ class Bumper extends Entity {
 		spr.set("bumperOut");
 		setSquashX(0.5);
 		fx.bumper(footX, footY);
+		Assets.SLIB.bumper(1);
 	}
 
 	override function update() {

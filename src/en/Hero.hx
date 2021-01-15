@@ -44,10 +44,10 @@ class Hero extends Entity {
 	override function onLand(fallCHei:Float) {
 		super.onLand(fallCHei);
 		jumps = 0;
-		// if( fallCHei>=3 )
-		// 	Assets.SLIB.land0(1);
-		// else
-		// 	Assets.SLIB.land1(0.5 * M.fmin(1,fallCHei/2));
+		if( fallCHei>=3 )
+			Assets.SLIB.land0(1);
+		else
+			Assets.SLIB.land1(0.5 * M.fmin(1,fallCHei/2));
 
 		var impact = M.fmin(1, fallCHei/6);
 		dx *= (1-impact)*0.5;

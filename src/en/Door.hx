@@ -14,6 +14,7 @@ class Door extends Entity {
 		gravityMul = 0;
 		needKey = data.f_needKey;
 		setClosed(true);
+		set_hei(32);
 		Game.ME.scroller.add(spr, Const.DP_BG);
 	}
 
@@ -23,9 +24,7 @@ class Door extends Entity {
 
 		isClosed = closed;
 
-		if( isClosed )
-			setSquashX(0.7);
-		else
+		if( !isClosed )
 			setSquashY(0.7);
 
 		if( spr!=null && !spr.destroyed )
@@ -43,14 +42,8 @@ class Door extends Entity {
 
 	override function dispose() {
 		super.dispose();
-
 		if( isClosed )
 			setClosed(false);
-
 		ALL.remove(this);
-	}
-
-	override function update() {
-		super.update();
 	}
 }

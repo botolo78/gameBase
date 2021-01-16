@@ -1,5 +1,6 @@
 package en;
 
+
 class Text extends Entity {
 	public static var ALL : Array<Text> = [];
 
@@ -39,6 +40,7 @@ class Text extends Entity {
 	public function reveal() {
 		textVisible = true;
 		cd.setS("revealAnim",0.5);
+		cd.setS("revealed", Const.INFINITE);
 	}
 
 	override function postUpdate() {
@@ -48,11 +50,17 @@ class Text extends Entity {
 
 		wrapper.x = Std.int( data.pixelX - tf.textWidth*0.5 );
 		wrapper.y = Std.int( data.pixelY - tf.textHeight*0.5 ) + Std.int(8*cd.getRatio("revealAnim"));
+
+
 	}
 
 	override function update() {
 		super.update();
-		if( distCase(hero)<=12 )
-			cd.setS("playerWasAround",10);
+		if  (data.f_vanish && cd.has("revealed") && distCase(hero)> 4) {
+			game.delayer.addS(()->{
+				destroy();
+			}, 1);		
+			
+		}
 	}
 }

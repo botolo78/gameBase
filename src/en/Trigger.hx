@@ -11,6 +11,7 @@ class Trigger extends Entity {
 		data = e;
 		game.scroller.add(spr, Const.DP_BG);
 		spr.set("triggerOff");
+		set_hei(6);
 	}
 
 	public function trigger() {

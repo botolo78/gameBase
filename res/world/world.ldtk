@@ -13,7 +13,7 @@
 	"defaultGridSize": 16,
 	"bgColor": "#000000",
 	"defaultLevelBgColor": "#37373D",
-	"nextUid": 76,
+	"nextUid": 77,
 	"minifyJson": false,
 	"exportTiled": false,
 	"worldLayout": "Free",
@@ -1143,6 +1143,27 @@
 						"regex": null,
 						"acceptFileTypes": null,
 						"defaultOverride": null
+					},
+					{
+						"identifier": "vanish",
+						"__type": "Bool",
+						"uid": 76,
+						"type": "F_Bool",
+						"isArray": false,
+						"canBeNull": false,
+						"arrayMinLength": null,
+						"arrayMaxLength": null,
+						"editorDisplayMode": "Hidden",
+						"editorDisplayPos": "Above",
+						"editorAlwaysShow": false,
+						"min": null,
+						"max": null,
+						"regex": null,
+						"acceptFileTypes": null,
+						"defaultOverride": {
+							"id": "V_Bool",
+							"params": [ true ]
+						}
 					}
 				]
 			}
@@ -1258,7 +1279,8 @@
 									"id": "V_Bool",
 									"params": [ true ]
 								}]
-							}
+							},
+							{ "__identifier": "vanish", "__value": true, "__type": "Bool", "defUid": 76, "realEditorValues": [] }
 						] },
 						{ "__identifier": "Trigger", "__grid": [5,7], "__tile": null, "defUid": 65, "px": [88,128], "fieldInstances": [
 							{

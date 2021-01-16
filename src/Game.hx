@@ -72,6 +72,37 @@ class Game extends Process {
 		hxd.Timer.skip();
 	}
 
+	public function notify(str:String, col=0x889fcd) {
+		var f = new h2d.Flow();
+		root.add(f, Const.DP_UI);
+		var tf = new h2d.Text(Assets.fontPixel, f);
+		tf.scale(Const.SCALE*2);
+		tf.text = str;
+		tf.textColor = col;
+		f.x = Std.int( w()*0.5 - f.outerWidth*0.5 );
+		f.y = Std.int( h()*0.4 - f.outerHeight*0.5 );
+
+		tw.createMs(f.alpha, 0>1, 400);
+		tw.createMs(tf.x, w()*0.5 > 0, TEaseOut, 200).end( ()->{
+			tw.createMs(tf.x, 1500 | -w()*0.5, TEaseIn, 200).end( ()->{
+				f.remove();
+			});
+		});
+	}
+
+	public function popText(x:Float, y:Float, str:String, col=0xffcc00) {
+		var f = new h2d.Flow();
+		scroller.add(f, Const.DP_UI);
+		var tf = new h2d.Text(Assets.fontPixel, f);
+		tf.text = str;
+		tf.textColor = col;
+		f.x = Std.int( x - f.outerWidth*0.5 );
+		f.y = Std.int( y - f.outerHeight*0.5 );
+
+		tw.createMs(f.alpha, 1>0, 1200).end( f.remove );
+		tw.createMs(f.y, f.y-20, TEaseOut, 200);
+	}
+
 
 	/** CDB file changed on disk**/
 	public function onCdbReload() {}
@@ -176,6 +207,7 @@ class Game extends Process {
 
 
 		for(e in Entity.ALL) if( !e.destroyed ) e.postUpdate();
+
 		gc();
 	}
 
@@ -198,7 +230,7 @@ class Game extends Process {
 			if( ca.isKeyboardPressed(Key.ESCAPE) ) {
 				if( !cd.hasSetS("exitWarn",3) ) {
 					var popup = new ui.Popup("Press ESC again to exit");
-					// Assets.SLIB.popup(0.5);
+					Assets.SLIB.click(0.5);
 					delayer.addS(()->{
 						popup.dispose();
 					}, 3);			
@@ -211,8 +243,8 @@ class Game extends Process {
 			#if js
 			// Sorry, cannot exit
 			if( ca.isKeyboardPressed(Key.ESCAPE) ) {
-				var popup = new ui.Text("Close your browser to exit :)");
-				Assets.SLIB.popup(0.5);
+				var popup = new ui.Popup("Close your browser to exit :)");
+				Assets.SLIB.click(0.5);
 				delayer.addS(()->{
 					popup.dispose();
 				}, 3);			

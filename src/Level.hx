@@ -1,5 +1,3 @@
-import en.Bumper;
-
 class Level extends dn.Process {
 	var game(get,never) : Game; inline function get_game() return Game.ME;
 	var fx(get,never) : Fx; inline function get_fx() return Game.ME.fx;
@@ -53,7 +51,6 @@ class Level extends dn.Process {
 
 	// Spawn entities
 	public function attachMainEntities() {
-
 		// Hero
 		var e = level.l_Entities.all_Hero[0];
 		game.hero = new en.Hero(e);

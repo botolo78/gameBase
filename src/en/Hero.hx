@@ -44,8 +44,10 @@ class Hero extends Entity {
 	override function onLand(fallCHei:Float) {
 		super.onLand(fallCHei);
 		jumps = 0;
-		if( fallCHei>=3 )
+		if( fallCHei>=4 ) {
 			Assets.SLIB.land0(1);
+			game.popText(headX, headY, "#$@&%*!", 0xff4724);
+		}
 		else
 			Assets.SLIB.land1(0.5 * M.fmin(1,fallCHei/2));
 

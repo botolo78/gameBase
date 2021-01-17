@@ -26,6 +26,21 @@ class Game extends Process {
 	var curGameSpeed = 1.0;
 	var slowMos : Map<String, { id:String, t:Float, f:Float }> = new Map();
 
+	/** SetGet**/
+	@:isVar public var collHearts(get,set) : Int; 
+	public inline function get_collHearts() return collHearts; 
+	public function set_collHearts(v : Int) return collHearts = collHearts+v; 
+
+	@:isVar public var collDiamonds(get,set) : Int; 
+	public inline function get_collDiamonds() return collDiamonds; 
+	public inline function set_collDiamonds(v : Int) return collDiamonds = collDiamonds+v; 	
+
+	/** Hero stuff**/
+	@:isVar public var heroLife: Int; 
+	public inline function get_heroLife() return heroLife; 
+	public function set_heroLife(v : Int) return if ( heroLife+v <= heroMaxLife) heroLife = heroLife+v; 
+	// public function set_heroLife(v : Int) return heroLife = heroLife+v; 
+	public var heroMaxLife: Int;
 
 	/** LDtk world data **/
 	public var world : World;
@@ -48,9 +63,19 @@ class Game extends Process {
 		world = new World();
 		fx = new Fx();
 		hud = new ui.Hud();
+
+		// Reset collectables counters
+		set_collHearts(0);
+		set_collDiamonds(0);
+
+		// Init hero & start level
+		initHeroLife(3);
 		startLevel(0);
 	}
 
+	public function initHeroLife(v) {
+		heroLife = heroMaxLife = v;
+	}
 
 	function startLevel(idx=-1, ?data:World_Level) {
 		curLevelIdx = idx;
@@ -204,10 +229,9 @@ class Game extends Process {
 		updateSlowMos();
 		baseTimeMul = ( 0.2 + 0.8*curGameSpeed ) * ( ucd.has("stopFrame") ? 0.3 : 1 );
 		Assets.tiles.tmod = tmod;
-
-
+		
 		for(e in Entity.ALL) if( !e.destroyed ) e.postUpdate();
-
+		
 		gc();
 	}
 

@@ -244,29 +244,30 @@ class Hero extends Entity {
 
 
 
-		// Circular collisions
-		if( hasCircularCollisions() ) {
-			var d = 0.;
+		// // Circular collisions
+		// if( hasCircularCollisions() ) {
+		// 	var d = 0.;
 
-			// Interact with bumpers
-			for(e in en.Bumper.ALL) {
-				if( !cd.has("dead") && !cd.has("dieing") && e.isAlive() && !e.cd.has("open") && hasCircularCollisionsWith(e) ) {
-					d = M.dist(centerX,centerY, e.centerX,e.centerY);
-					if( d<=(radius+e.radius)-e.wid/2 ) {
-						e.onUse();
-						cancelVelocities();
-						cd.setS("bumperJump",0.2);
-						dy = -0.8;
-					}
-				}
-			}
-		}
+		// 	// Interact with bumpers
+		// 	for(e in en.Bumper.ALL) {
+		// 		if( !cd.has("dead") && !cd.has("dieing") && e.isAlive() && !e.cd.has("open") && hasCircularCollisionsWith(e) ) {
+		// 			d = M.dist(centerX,centerY, e.centerX,e.centerY);
+		// 			if( d<=(radius+e.radius)-e.wid/2 ) {
+		// 				e.onUse();
+		// 				cancelVelocities();
+		// 				cd.setS("bumperJump",0.2);
+		// 				dy = -0.8;
+		// 			}
+		// 		}
+		// 	}
+		// }
 
 
 
 		#if debug
 		// debug( M.pretty(hxd.Timer.fps(),1) );
 		// debug(state);
+		debug(game.get_heroLife());
 		#end
 	}
 }

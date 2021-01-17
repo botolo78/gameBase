@@ -9,6 +9,11 @@ enum States {
 	JumpDown;
 }
 
+enum Collectables {
+	Heart;
+	Diamond;
+}
+
 enum LevelMark {
 	Grab;
 	GrabLeft;

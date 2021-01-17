@@ -168,6 +168,16 @@ class Fx extends dn.Process {
 		}
 	}	
 
+	public function shine(x:Float, y:Float, c:UInt) {
+		var p = allocBgAdd(getTile("fxStar"),x,y);
+		p.colorize(c);
+		p.setFadeS(rnd(0.5,1), 0.1, 0.1);
+		p.dr = 0.2;
+		p.setScale(rnd(1,2));
+		p.scaleMul = 0.9;
+		p.lifeS = 0.2;
+	}
+
 	/**
 		A small sample to demonstrate how basic particles work. This example produces a small explosion of yellow dots that will fall and slowly fade to purple.
 

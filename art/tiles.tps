@@ -184,6 +184,10 @@
             <key type="filename">export_tiles/bumperOff.png</key>
             <key type="filename">export_tiles/bumperOut.png</key>
             <key type="filename">export_tiles/fxCircle0.png</key>
+            <key type="filename">export_tiles/itemDiamond0.png</key>
+            <key type="filename">export_tiles/itemDiamond1.png</key>
+            <key type="filename">export_tiles/itemHeart0.png</key>
+            <key type="filename">export_tiles/itemHeart1.png</key>
             <key type="filename">export_tiles/testEntity16x16.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -199,22 +203,12 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">export_tiles/doorClosed.png</key>
-            <key type="filename">export_tiles/doorKeyClosed.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>spriteScale</key>
-                <double>1</double>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>4,8,8,16</rect>
-                <key>scale9Paddings</key>
-                <rect>4,8,8,16</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
+            <key type="filename">export_tiles/collected0.png</key>
+            <key type="filename">export_tiles/collected1.png</key>
+            <key type="filename">export_tiles/collected2.png</key>
+            <key type="filename">export_tiles/collected3.png</key>
+            <key type="filename">export_tiles/collected4.png</key>
+            <key type="filename">export_tiles/collected5.png</key>
             <key type="filename">export_tiles/doorKeyOpen.png</key>
             <key type="filename">export_tiles/doorOpen.png</key>
             <key type="filename">export_tiles/heroCrouchIdle0.png</key>
@@ -234,6 +228,22 @@
                 <rect>8,8,16,16</rect>
                 <key>scale9Paddings</key>
                 <rect>8,8,16,16</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">export_tiles/doorClosed.png</key>
+            <key type="filename">export_tiles/doorKeyClosed.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>4,8,8,16</rect>
+                <key>scale9Paddings</key>
+                <rect>4,8,8,16</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -407,6 +417,7 @@
                 <false/>
             </struct>
             <key type="filename">export_tiles/fxSmallCircle0.png</key>
+            <key type="filename">export_tiles/fxStar.png</key>
             <key type="filename">export_tiles/fxZ.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>

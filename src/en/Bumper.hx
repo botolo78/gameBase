@@ -34,6 +34,25 @@ class Bumper extends Entity {
 			spr.set("bumperOff");
 			setSquashY(0.5);
 		}
+
+		// Circular collisions
+		if( hasCircularCollisions() ) {
+			var d = 0.;
+
+		// Interact with hero
+			if( isAlive() && !cd.has("open") ) {
+				d = M.dist(centerX,centerY, hero.centerX,hero.centerY);
+				if( d<=(radius+hero.radius)-wid/2 ) {
+					onUse();
+					hero.cancelVelocities();
+					hero.cd.setS("bumperJump",0.2);
+					hero.dy = -0.8;
+				}
+			}
+		}		
+
+
+
 	}
 
 }

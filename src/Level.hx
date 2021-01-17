@@ -1,3 +1,5 @@
+import en.Collectable;
+
 class Level extends dn.Process {
 	var game(get,never) : Game; inline function get_game() return Game.ME;
 	var fx(get,never) : Fx; inline function get_fx() return Game.ME.fx;
@@ -51,17 +53,25 @@ class Level extends dn.Process {
 
 	// Spawn entities
 	public function attachMainEntities() {
+
+		// Collectables
+		if( level.l_Entities.all_Collectable!=null ) 
+			for( e in level.l_Entities.all_Collectable ) {
+				new en.Collectable(e);
+				}	
+
 		// Hero
 		var e = level.l_Entities.all_Hero[0];
 		game.hero = new en.Hero(e);
 
+		
 		// Doors
 		if( level.l_Entities.all_Door!=null ) 
 			for( e in level.l_Entities.all_Door ) {
 				new en.Door(e);
 				}	
 
-		// Doors
+		// Text
 		if( level.l_Entities.all_Text!=null ) 
 			for( e in level.l_Entities.all_Text ) {
 				new en.Text(e);

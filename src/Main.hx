@@ -18,7 +18,7 @@ class Main extends dn.Process {
 
 		// Engine settings
 		engine.backgroundColor = 0xff<<24|0x000000;
-		engine.fullScreen = true; 
+		// engine.fullScreen = true; 
         #if( hl && !debug )
         engine.fullScreen = true;
         #end

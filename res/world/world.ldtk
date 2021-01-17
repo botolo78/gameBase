@@ -13,7 +13,7 @@
 	"defaultGridSize": 16,
 	"bgColor": "#000000",
 	"defaultLevelBgColor": "#37373D",
-	"nextUid": 77,
+	"nextUid": 99,
 	"minifyJson": false,
 	"exportTiled": false,
 	"worldLayout": "Free",
@@ -1166,6 +1166,42 @@
 						}
 					}
 				]
+			},
+			{
+				"identifier": "Collectable",
+				"uid": 95,
+				"width": 16,
+				"height": 16,
+				"color": "#FFC100",
+				"renderMode": "Ellipse",
+				"showName": true,
+				"tilesetId": null,
+				"tileId": null,
+				"tileRenderMode": "Stretch",
+				"maxPerLevel": 0,
+				"limitBehavior": "DiscardOldOnes",
+				"pivotX": 0,
+				"pivotY": 0,
+				"fieldDefs": [
+					{
+						"identifier": "collectables",
+						"__type": "ExternEnum.Collectables",
+						"uid": 98,
+						"type": { "id": "F_Enum", "params": [96] },
+						"isArray": false,
+						"canBeNull": false,
+						"arrayMinLength": null,
+						"arrayMaxLength": null,
+						"editorDisplayMode": "ValueOnly",
+						"editorDisplayPos": "Above",
+						"editorAlwaysShow": false,
+						"min": null,
+						"max": null,
+						"regex": null,
+						"acceptFileTypes": null,
+						"defaultOverride": null
+					}
+				]
 			}
 		],
 		"tilesets": [
@@ -1186,7 +1222,24 @@
 			}
 		],
 		"enums": [],
-		"externalEnums": []
+		"externalEnums": [
+			{ "identifier": "Affect", "uid": 92, "values": [{ "id": "Stun", "tileId": null, "__tileSrcRect": null }], "iconTilesetUid": null, "externalRelPath": "../../src/Types.hx", "externalFileChecksum": "b96a11dff0e506faa17e687043512725" },
+			{ "identifier": "States", "uid": 93, "values": [
+				{ "id": "Idle", "tileId": null, "__tileSrcRect": null },
+				{ "id": "JumpDown", "tileId": null, "__tileSrcRect": null },
+				{ "id": "JumpUp", "tileId": null, "__tileSrcRect": null },
+				{ "id": "Run", "tileId": null, "__tileSrcRect": null }
+			], "iconTilesetUid": null, "externalRelPath": "../../src/Types.hx", "externalFileChecksum": "b96a11dff0e506faa17e687043512725" },
+			{ "identifier": "LevelMark", "uid": 94, "values": [
+				{ "id": "Grab", "tileId": null, "__tileSrcRect": null },
+				{ "id": "GrabLeft", "tileId": null, "__tileSrcRect": null },
+				{ "id": "GrabRight", "tileId": null, "__tileSrcRect": null },
+				{ "id": "PlatformEnd", "tileId": null, "__tileSrcRect": null },
+				{ "id": "PlatformEndLeft", "tileId": null, "__tileSrcRect": null },
+				{ "id": "PlatformEndRight", "tileId": null, "__tileSrcRect": null }
+			], "iconTilesetUid": null, "externalRelPath": "../../src/Types.hx", "externalFileChecksum": "b96a11dff0e506faa17e687043512725" },
+			{ "identifier": "Collectables", "uid": 96, "values": [ { "id": "Diamond", "tileId": null, "__tileSrcRect": null }, { "id": "Heart", "tileId": null, "__tileSrcRect": null } ], "iconTilesetUid": null, "externalRelPath": "../../src/Types.hx", "externalFileChecksum": "b96a11dff0e506faa17e687043512725" }
+		]
 	},
 	"levels": [
 		{
@@ -1219,7 +1272,7 @@
 					"seed": 8131789,
 					"gridTiles": [],
 					"entityInstances": [
-						{ "__identifier": "Hero", "__grid": [2,7], "__tile": null, "defUid": 22, "px": [32,112], "fieldInstances": [] },
+						{ "__identifier": "Hero", "__grid": [15,6], "__tile": null, "defUid": 22, "px": [240,96], "fieldInstances": [] },
 						{ "__identifier": "Bumper", "__grid": [19,14], "__tile": null, "defUid": 63, "px": [304,224], "fieldInstances": [] },
 						{ "__identifier": "Bumper", "__grid": [23,14], "__tile": null, "defUid": 63, "px": [368,224], "fieldInstances": [] },
 						{ "__identifier": "Door", "__grid": [25,9], "__tile": null, "defUid": 69, "px": [408,160], "fieldInstances": [
@@ -1304,7 +1357,57 @@
 								}]
 							},
 							{ "__identifier": "radius", "__value": 0, "__type": "Int", "defUid": 68, "realEditorValues": [] }
-						] }
+						] },
+						{ "__identifier": "Collectable", "__grid": [17,6], "__tile": null, "defUid": 95, "px": [272,96], "fieldInstances": [{
+							"__identifier": "collectables",
+							"__value": "Diamond",
+							"__type": "ExternEnum.Collectables",
+							"defUid": 98,
+							"realEditorValues": [{
+								"id": "V_String",
+								"params": ["Diamond"]
+							}]
+						}] },
+						{ "__identifier": "Collectable", "__grid": [20,6], "__tile": null, "defUid": 95, "px": [320,96], "fieldInstances": [{
+							"__identifier": "collectables",
+							"__value": "Heart",
+							"__type": "ExternEnum.Collectables",
+							"defUid": 98,
+							"realEditorValues": [{
+								"id": "V_String",
+								"params": ["Heart"]
+							}]
+						}] },
+						{ "__identifier": "Collectable", "__grid": [22,6], "__tile": null, "defUid": 95, "px": [352,96], "fieldInstances": [{
+							"__identifier": "collectables",
+							"__value": "Heart",
+							"__type": "ExternEnum.Collectables",
+							"defUid": 98,
+							"realEditorValues": [{
+								"id": "V_String",
+								"params": ["Heart"]
+							}]
+						}] },
+						{ "__identifier": "Collectable", "__grid": [17,7], "__tile": null, "defUid": 95, "px": [272,112], "fieldInstances": [{
+							"__identifier": "collectables",
+							"__value": "Diamond",
+							"__type": "ExternEnum.Collectables",
+							"defUid": 98,
+							"realEditorValues": [{
+								"id": "V_String",
+								"params": ["Diamond"]
+							}]
+						}] },
+						{ "__identifier": "Collectable", "__grid": [17,8], "__tile": null, "defUid": 95, "px": [272,128], "fieldInstances": [{
+							"__identifier": "collectables",
+							"__value": "Diamond",
+							"__type": "ExternEnum.Collectables",
+							"defUid": 98,
+							"realEditorValues": [{
+								"id": "V_String",
+								"params": ["Diamond"]
+							}]
+						}] }
 					]
 				},
 				{

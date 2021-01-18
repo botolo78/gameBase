@@ -45,6 +45,10 @@ class Hud extends dn.Process {
 		diamonds.textColor = 0xFFFFFF;
 	}
 
+	public function shake() {
+		cd.setS("shaking", 1);
+	}
+
 	override function onResize() {
 		super.onResize();
 		root.setScale(Const.UI_SCALE);
@@ -63,6 +67,12 @@ class Hud extends dn.Process {
 			lifeIcon.scaleY = 1.5;
 		}
 	}
+
+	override public function update() {
+		super.update();
+		if( cd.has("shaking") )
+			diamonds.y = 32 + Math.cos(ftime*0.7)*2 * cd.getRatio("shaking");
+	}	
 
 	override function postUpdate() {
 		super.postUpdate();

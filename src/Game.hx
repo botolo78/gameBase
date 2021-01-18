@@ -27,11 +27,11 @@ class Game extends Process {
 	var slowMos : Map<String, { id:String, t:Float, f:Float }> = new Map();
 
 	/** SetGet**/
-	@:isVar public var collHearts(get,set) : Int; 
+	@:isVar public var collHearts(get,set) : Int = 0; 
 	public inline function get_collHearts() return collHearts; 
 	public function set_collHearts(v : Int) return collHearts = collHearts+v; 
 
-	@:isVar public var collDiamonds(get,set) : Int; 
+	@:isVar public var collDiamonds(get,set) : Int = 0; 
 	public inline function get_collDiamonds() return collDiamonds; 
 	public inline function set_collDiamonds(v : Int) return collDiamonds = collDiamonds+v; 	
 

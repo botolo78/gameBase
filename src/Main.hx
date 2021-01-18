@@ -127,19 +127,17 @@ class Main extends dn.Process {
 		tf.x = logo.x + 10;
 		tf.y = tfTitle.y+tfTitle.textHeight+10;		
 
-
 		// Render
 		root.add(logo, Const.DP_UI);
 		root.add(tfTitle, Const.DP_UI);
 		root.add(tf, Const.DP_UI);
-
 
 		// Fade in
 		Main.ME.tw.createS(logo.alpha,0>1,1.5);
 		Main.ME.tw.createS(tfTitle.alpha,0>1,2.5);
 		Main.ME.tw.createS(tf.alpha,0>1,2.5);
 
-		// Move log up
+		// Move logo up
 		var y = logo.y - 50;
 		Main.ME.tw.createS(logo.y,y,1.5);
 
@@ -154,7 +152,6 @@ class Main extends dn.Process {
 		Main.ME.delayer.addS(()->{
 			new Game();
 		}, Const.INTRODELAY+1);
-
 	}	
 
 

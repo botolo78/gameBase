@@ -6,7 +6,7 @@ class Const {
 	public static inline var INFINITE = 999999;
 
 	public static inline var GRAVITY = 0.032;
-	public static inline var INTRODELAY = 5;
+	public static inline var INTRODELAY = 8;
 
 	/** Unique value generator **/
 	public static var NEXT_UNIQ(get,never) : Int; static inline function get_NEXT_UNIQ() return _uniq++;

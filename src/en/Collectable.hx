@@ -45,7 +45,6 @@ class Collectable extends Entity {
 		// Circular collisions
 		if( hasCircularCollisions() ) {
 			var d = 0.;
-
 		// Interact with hero
 			if( isAlive() && !cd.has("collected") ) {
 				d = M.dist(centerX,centerY, hero.centerX,hero.centerY);
@@ -72,6 +71,7 @@ class Collectable extends Entity {
 							spr.setCenterRatio(0.5,0.75);								
 							game.set_collDiamonds(1);
 							hud.invalidate();
+							hud.shake();
 							// Delay death to display popping animation
 							game.delayer.addS(()->{
 								delayedDie();
@@ -81,7 +81,5 @@ class Collectable extends Entity {
 				}
 			}
 		}		
-
-
 	}
 }

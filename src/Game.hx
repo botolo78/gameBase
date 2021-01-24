@@ -58,9 +58,11 @@ class Game extends Process {
 
 		scroller = new h2d.Layers();
 		root.add(scroller, Const.DP_BG);
-		scroller.filter = new h2d.filter.ColorMatrix(); // force rendering for pixel perfect
+		scroller.filter = new h2d.filter.Nothing(); // force rendering for pixel perfect
 
-		world = new World();
+		// world = new World();
+		world = new World( hxd.Res.world.world.entry.getText() );
+		// world = new World( hxd.Res.world.world_ldtk.entry.getText() );
 		fx = new Fx();
 		hud = new ui.Hud();
 
@@ -71,6 +73,16 @@ class Game extends Process {
 		// Init hero & start level
 		initHeroLife(3);
 		startLevel(0);
+
+		#if debug
+		var tf = new h2d.Text(Assets.fontPixel,Boot.ME.s2d);
+		tf.scale(4);
+		createChildProcess((p)->{
+			if( !p.cd.hasSetS("fps",0.1) )
+				tf.text = "" + Std.int( hxd.Timer.fps() );
+		});
+		#end
+
 	}
 
 	public function initHeroLife(v) {
@@ -136,7 +148,9 @@ class Game extends Process {
 	/** Called when LDtk world changes on the disk**/
 	
 	public function onLDtkReload() {
+		// world.parseJson( hxd.Res.world.world.entry.getText() );
 		world.parseJson( hxd.Res.world.world.entry.getText() );
+		// world.parseJson( hxd.Res.world.world_ldtk.entry.getText() );
 		startLevel(curLevelIdx);
 	}	
 

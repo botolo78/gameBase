@@ -2,12 +2,13 @@
 	"__header__": {
 		"fileType": "LDtk Project JSON",
 		"app": "LDtk",
-		"schema": "https://ldtk.io/json",
+		"doc": "https://ldtk.io/json",
+		"schema": "https://ldtk.io/files/JSON_SCHEMA.json",
 		"appAuthor": "Sebastien 'deepnight' Benard",
-		"appVersion": "0.6.2",
+		"appVersion": "0.7.0",
 		"url": "https://ldtk.io"
 	},
-	"jsonVersion": "0.6.2",
+	"jsonVersion": "0.7.0",
 	"defaultPivotX": 0,
 	"defaultPivotY": 0,
 	"defaultGridSize": 16,
@@ -15,7 +16,11 @@
 	"defaultLevelBgColor": "#37373D",
 	"nextUid": 99,
 	"minifyJson": false,
+	"externalLevels": false,
 	"exportTiled": false,
+	"exportPng": false,
+	"backupOnSave": false,
+	"backupLimit": 10,
 	"worldLayout": "Free",
 	"worldGridWidth": 256,
 	"worldGridHeight": 256,
@@ -1251,6 +1256,12 @@
 			"pxHei": 256,
 			"__bgColor": "#37373D",
 			"bgColor": null,
+			"bgRelPath": null,
+			"bgPos": null,
+			"bgPivotX": 0.5,
+			"bgPivotY": 0.5,
+			"__bgPos": null,
+			"externalRelPath": null,
 			"layerInstances": [
 				{
 					"__identifier": "Entities",
@@ -1272,10 +1283,10 @@
 					"seed": 8131789,
 					"gridTiles": [],
 					"entityInstances": [
-						{ "__identifier": "Hero", "__grid": [21,14], "__tile": null, "defUid": 22, "px": [336,224], "fieldInstances": [] },
-						{ "__identifier": "Bumper", "__grid": [19,14], "__tile": null, "defUid": 63, "px": [304,224], "fieldInstances": [] },
-						{ "__identifier": "Bumper", "__grid": [23,14], "__tile": null, "defUid": 63, "px": [368,224], "fieldInstances": [] },
-						{ "__identifier": "Door", "__grid": [25,9], "__tile": null, "defUid": 69, "px": [408,160], "fieldInstances": [
+						{ "__identifier": "Hero", "__grid": [2,7], "__pivot": [0,0], "__tile": null, "defUid": 22, "px": [32,112], "fieldInstances": [] },
+						{ "__identifier": "Bumper", "__grid": [19,14], "__pivot": [0,0], "__tile": null, "defUid": 63, "px": [304,224], "fieldInstances": [] },
+						{ "__identifier": "Bumper", "__grid": [23,14], "__pivot": [0,0], "__tile": null, "defUid": 63, "px": [368,224], "fieldInstances": [] },
+						{ "__identifier": "Door", "__grid": [25,9], "__pivot": [0.5,1], "__tile": null, "defUid": 69, "px": [408,160], "fieldInstances": [
 							{
 								"__identifier": "needKey",
 								"__value": true,
@@ -1285,7 +1296,7 @@
 							},
 							{ "__identifier": "showLock", "__value": true, "__type": "Bool", "defUid": 71, "realEditorValues": [] }
 						] },
-						{ "__identifier": "Trigger", "__grid": [25,5], "__tile": null, "defUid": 65, "px": [408,96], "fieldInstances": [
+						{ "__identifier": "Trigger", "__grid": [25,5], "__pivot": [0.5,1], "__tile": null, "defUid": 65, "px": [408,96], "fieldInstances": [
 							{
 								"__identifier": "target",
 								"__value": { "cx": 25, "cy": 9 },
@@ -1305,7 +1316,7 @@
 							},
 							{ "__identifier": "radius", "__value": 0, "__type": "Int", "defUid": 68, "realEditorValues": [] }
 						] },
-						{ "__identifier": "Text", "__grid": [5,4], "__tile": null, "defUid": 72, "px": [88,72], "fieldInstances": [
+						{ "__identifier": "Text", "__grid": [5,4], "__pivot": [0.5,0.5], "__tile": null, "defUid": 72, "px": [88,72], "fieldInstances": [
 							{
 								"__identifier": "text",
 								"__value": "Hi there",
@@ -1335,7 +1346,7 @@
 							},
 							{ "__identifier": "vanish", "__value": true, "__type": "Bool", "defUid": 76, "realEditorValues": [] }
 						] },
-						{ "__identifier": "Trigger", "__grid": [5,7], "__tile": null, "defUid": 65, "px": [88,128], "fieldInstances": [
+						{ "__identifier": "Trigger", "__grid": [5,7], "__pivot": [0.5,1], "__tile": null, "defUid": 65, "px": [88,128], "fieldInstances": [
 							{
 								"__identifier": "target",
 								"__value": { "cx": 5, "cy": 4 },
@@ -1358,7 +1369,7 @@
 							},
 							{ "__identifier": "radius", "__value": 0, "__type": "Int", "defUid": 68, "realEditorValues": [] }
 						] },
-						{ "__identifier": "Collectable", "__grid": [13,2], "__tile": null, "defUid": 95, "px": [208,32], "fieldInstances": [{
+						{ "__identifier": "Collectable", "__grid": [13,2], "__pivot": [0,0], "__tile": null, "defUid": 95, "px": [208,32], "fieldInstances": [{
 							"__identifier": "collectables",
 							"__value": "Diamond",
 							"__type": "ExternEnum.Collectables",
@@ -1368,7 +1379,7 @@
 								"params": ["Diamond"]
 							}]
 						}] },
-						{ "__identifier": "Collectable", "__grid": [21,12], "__tile": null, "defUid": 95, "px": [336,192], "fieldInstances": [{
+						{ "__identifier": "Collectable", "__grid": [21,12], "__pivot": [0,0], "__tile": null, "defUid": 95, "px": [336,192], "fieldInstances": [{
 							"__identifier": "collectables",
 							"__value": "Diamond",
 							"__type": "ExternEnum.Collectables",
@@ -1400,6 +1411,8 @@
 					"seed": 3790542,
 					"gridTiles": [
 						{ "px": [144,64], "src": [208,64], "f": 0, "t": 93, "d": [125] },
+						{ "px": [16,112], "src": [0,0], "f": 0, "t": 0, "d": [204] },
+						{ "px": [32,112], "src": [0,0], "f": 0, "t": 0, "d": [205] },
 						{ "px": [288,224], "src": [224,64], "f": 0, "t": 94, "d": [424] },
 						{ "px": [384,224], "src": [224,64], "f": 0, "t": 94, "d": [430] }
 					],

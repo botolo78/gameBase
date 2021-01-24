@@ -4,10 +4,10 @@
 	"skipErrorMessage": true,
 	"commands": [
 		{
-			"text": "🍊 HL",
+			"text": "🍊 Build HL",
 			"color": "orange",
-			"commandType":"exec",
-			"command": "haxe hl.hxml",
+			"commandType":"palette",
+			"command": "workbench.action.tasks.runTask|HL release",
 			"alignment": "right",
 			"skipTerminateQuickPick": false,
 			"priority": -10
@@ -21,10 +21,10 @@
 			"priority": -11
 		},
 		{
-			"text": "☕ JS",
+			"text": "☕ Build JS",
 			"color": "yellow",
-			"commandType":"exec",
-			"command": "haxe js.hxml",
+			"commandType":"palette",
+			"command": "workbench.action.tasks.runTask|JS release",
 			"alignment": "right",
 			"skipTerminateQuickPick": false,
 			"priority": -20
@@ -38,7 +38,7 @@
 			"priority": -21
 		},
 		{
-			"text": "🅰️ Lang",
+			"text": "🅰️ Build POT",
 			"color": "white",
 			"commandType":"palette",
 			"command": "workbench.action.tasks.runTask|Lang",
@@ -49,7 +49,7 @@
 		{
 			"text": "📦 Redist",
 			"color": "lightgreen",
-			"command": "haxelib run redistHelper hl.dx.hxml hl.sdl.hxml js.hxml -o redist -p MyGame",
+			"command": "haxelib run redistHelper hl.dx.hxml hl.sdl.hxml js.hxml -p gameBase -zip",
 			"alignment": "right",
 			"skipTerminateQuickPick": false,
 			"priority": -50

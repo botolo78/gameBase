@@ -4,6 +4,8 @@ class Const {
 	public static inline var FIXED_FPS = 30;
 	public static inline var GRID = 16;
 	public static inline var INFINITE = 999999;
+	public static var SCALE = 1; // ignored if auto-scaling
+	public static var UI_SCALE = 1;
 
 	public static inline var GRAVITY = 0.032;
 	public static inline var INTRODELAY = 8;
@@ -11,20 +13,6 @@ class Const {
 	/** Unique value generator **/
 	public static var NEXT_UNIQ(get,never) : Int; static inline function get_NEXT_UNIQ() return _uniq++;
 	static var _uniq = 0;
-
-	/** Viewport scaling **/
-	public static var SCALE(get,never) : Int;
-		static inline function get_SCALE() {
-			// can be replaced with another way to determine the game scaling
-			return dn.heaps.Scaler.bestFit_i(640,256);
-		}
-
-	/** Specific scaling for top UI elements **/
-	public static var UI_SCALE(get,never) : Float;
-		static inline function get_UI_SCALE() {
-			// can be replaced with another way to determine the UI scaling
-			return SCALE;
-		}
 
 	/** Game layers indexes **/
 	static var _inc = 0;

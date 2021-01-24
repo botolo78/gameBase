@@ -55,7 +55,6 @@ class Level extends dn.Process {
 	public function attachMainEntities() {
 
 		// Collectables
-		if( level.l_Entities.all_Collectable!=null ) 
 			for( e in level.l_Entities.all_Collectable ) {
 				new en.Collectable(e);
 				}	
@@ -63,43 +62,24 @@ class Level extends dn.Process {
 		// Hero
 		var e = level.l_Entities.all_Hero[0];
 		game.hero = new en.Hero(e);
-
 		
 		// Doors
-		if( level.l_Entities.all_Door!=null ) 
-			for( e in level.l_Entities.all_Door ) {
-				new en.Door(e);
-				}	
+		for( e in level.l_Entities.all_Door ) new en.Door(e);
 
 		// Text
-		if( level.l_Entities.all_Text!=null ) 
-			for( e in level.l_Entities.all_Text ) {
-				new en.Text(e);
-				}					
-
+		for( e in level.l_Entities.all_Text ) new en.Text(e);
+			
 		// Triggers
-		if( level.l_Entities.all_Trigger!=null ) 
-			for( e in level.l_Entities.all_Trigger ) {
-				new en.Trigger(e);
-				}	
+		for( e in level.l_Entities.all_Trigger ) new en.Trigger(e);
 
 		// Bumpers
-		if( level.l_Entities.all_Bumper!=null ) 
-			for( e in level.l_Entities.all_Bumper ) {
-				new en.Bumper(e);
-				}	
+		for( e in level.l_Entities.all_Bumper ) new en.Bumper(e);
 
 		// Test Entities 16x16 (DEBUG)
-		if( level.l_Entities.all_TestEntity16x16!=null ) 
-			for( e in level.l_Entities.all_TestEntity16x16 ) {
-				new en.TestEntity16x16(e);
-				}		
+		for( e in level.l_Entities.all_TestEntity16x16 ) new en.TestEntity16x16(e);
 
 		// Test Entities 32x16 (DEBUG)
-		if( level.l_Entities.all_TestEntity32x16!=null ) 
-			for( e in level.l_Entities.all_TestEntity32x16 ) {
-				new en.TestEntity32x16(e);
-				}						
+		for( e in level.l_Entities.all_TestEntity32x16 ) new en.TestEntity32x16(e);				
 	}	
 
 
@@ -166,19 +146,24 @@ class Level extends dn.Process {
 
 	function render() {
 		root.removeChildren();		
-		
+
 		// Render collisions
 		var tg_collisions = new h2d.TileGroup(tilesetSource, root);
-		level.l_Collisions.renderInTileGroup(tg_collisions, false);
+		for( autoTile in level.l_Collisions.autoTiles ) {
+			var tile = level.l_Collisions.tileset.getAutoLayerTile(autoTile);
+			tg_collisions.add(autoTile.renderX, autoTile.renderY, tile);
+		}
 
 		// Render decorations
 		var tg_decorations = new h2d.TileGroup(tilesetSource, root);
-		level.l_Decorations.renderInTileGroup(tg_decorations, false);	
+		for( autoTile in level.l_Decorations.autoTiles ) {
+			var tile = level.l_Decorations.tileset.getAutoLayerTile(autoTile);
+			tg_decorations.add(autoTile.renderX, autoTile.renderY, tile);
+		}
 
 		// Stamps
 		var tilesStamps = new h2d.TileGroup(tilesetSource, root);
-		level.l_Stamps.renderInTileGroup(tilesStamps, false);
-
+		level.l_Stamps.render(tilesStamps);
 	}
 
 	override function postUpdate() {

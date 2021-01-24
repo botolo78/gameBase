@@ -45,6 +45,7 @@ class Main extends dn.Process {
 
 		// Hot reloading (LDtk)
         hxd.Res.world.world.watch(function() {
+		// hxd.Res.world.world_ldtk.watch(function() {
             delayer.cancelById("ldtk");
 
             delayer.addS("ldtk", function() {
@@ -153,6 +154,15 @@ class Main extends dn.Process {
 			new Game();
 		}, Const.INTRODELAY+1);
 	}	
+
+
+	override public function onResize() {
+		super.onResize();
+
+		// Auto scaling
+		Const.SCALE = dn.heaps.Scaler.bestFit_i(640,256);
+		Const.UI_SCALE = Const.SCALE;
+	}
 
 
     override function update() {

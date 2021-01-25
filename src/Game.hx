@@ -61,8 +61,8 @@ class Game extends Process {
 		scroller.filter = new h2d.filter.Nothing(); // force rendering for pixel perfect
 
 		// world = new World();
-		world = new World( hxd.Res.world.world.entry.getText() );
-		// world = new World( hxd.Res.world.world_ldtk.entry.getText() );
+		// world = new World( hxd.Res.world.world.entry.getText() );
+		world = new World( hxd.Res.world.world_ldtk.entry.getText() );
 		fx = new Fx();
 		hud = new ui.Hud();
 
@@ -149,8 +149,8 @@ class Game extends Process {
 	
 	public function onLDtkReload() {
 		// world.parseJson( hxd.Res.world.world.entry.getText() );
-		world.parseJson( hxd.Res.world.world.entry.getText() );
-		// world.parseJson( hxd.Res.world.world_ldtk.entry.getText() );
+		// world.parseJson( hxd.Res.world.world.entry.getText() );
+		world.parseJson( hxd.Res.world.world_ldtk.entry.getText() );
 		startLevel(curLevelIdx);
 	}	
 

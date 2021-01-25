@@ -17,26 +17,18 @@ class Level extends dn.Process {
 	public var pxHei(get,never) : Int; inline function get_pxHei() return cHei*Const.GRID;
 
 	public var level : World_Level;
+	var tilesetSource : h2d.Tile;
+
 
 	var marks : Map< LevelMark, Map<Int,Bool> > = new Map();
 	var extraCollMap : Map<Int,Bool> = new Map();
 	var invalidated = true;
 
-	/** LDtk tilegroup layers**/
-	var tg_collisions : h2d.TileGroup;
-	var tg_decorations : h2d.TileGroup;
-	var tg_stamps : h2d.TileGroup;
-
-
 	public function new(l:World_Level) {
 		super(Game.ME);
 		createRootInLayers(Game.ME.scroller, Const.DP_BG);
 		level = l;
-		var sourceTile = l.l_Collisions.tileset.getAtlasTile();
-
-		tg_collisions = new h2d.TileGroup(sourceTile, root);
-		tg_decorations = new h2d.TileGroup(sourceTile, root);
-		tg_stamps = new h2d.TileGroup(sourceTile, root);
+		tilesetSource = Assets.ldtkTilesets["Tiles"];
 
 		// Marking
 		for(cy in 0...cHei)
@@ -91,6 +83,7 @@ class Level extends dn.Process {
 	}	
 
 
+	
 
 	/** TRUE if given coords are in level bounds **/
 	public inline function isValid(cx,cy) return cx>=0 && cx<cWid && cy>=0 && cy<cHei;
@@ -101,17 +94,6 @@ class Level extends dn.Process {
 	/** Ask for a level render that will only happen at the end of the current frame. **/
 	public inline function invalidate() {
 		invalidated = true;
-	}
-
-	override function onDispose() {
-		super.onDispose();
-
-		level = null;
-		marks = null;
-
-		tg_collisions.remove();
-		tg_decorations.remove();
-		tg_stamps.remove();
 	}
 
 
@@ -163,25 +145,25 @@ class Level extends dn.Process {
 
 
 	function render() {
-		// root.removeChildren();	
-		tg_collisions.clear();
-		tg_decorations.clear();
-		tg_stamps.clear();	
+		root.removeChildren();		
 
 		// Render collisions
+		var tg_collisions = new h2d.TileGroup(tilesetSource, root);
 		for( autoTile in level.l_Collisions.autoTiles ) {
 			var tile = level.l_Collisions.tileset.getAutoLayerTile(autoTile);
 			tg_collisions.add(autoTile.renderX, autoTile.renderY, tile);
 		}
 
 		// Render decorations
+		var tg_decorations = new h2d.TileGroup(tilesetSource, root);
 		for( autoTile in level.l_Decorations.autoTiles ) {
 			var tile = level.l_Decorations.tileset.getAutoLayerTile(autoTile);
 			tg_decorations.add(autoTile.renderX, autoTile.renderY, tile);
 		}
 
 		// Stamps
-		level.l_Stamps.render(tg_stamps);
+		var tilesStamps = new h2d.TileGroup(tilesetSource, root);
+		level.l_Stamps.render(tilesStamps);
 	}
 
 	override function postUpdate() {

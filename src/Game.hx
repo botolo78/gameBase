@@ -74,14 +74,23 @@ class Game extends Process {
 		initHeroLife(3);
 		startLevel(0);
 
-		#if debug
-		var tf = new h2d.Text(Assets.fontPixel,Boot.ME.s2d);
-		tf.scale(4);
-		createChildProcess((p)->{
-			if( !p.cd.hasSetS("fps",0.1) )
-				tf.text = "" + Std.int( hxd.Timer.fps() );
-		});
+		// #if debug
+		// var tf = new h2d.Text(Assets.fontPixel,Boot.ME.s2d);
+		// tf.scale(4);
+		// createChildProcess((p)->{
+		// 	if( !p.cd.hasSetS("fps",0.1) )
+		// 		tf.text = "" + Std.int( hxd.Timer.fps() );
+		// });
+		// #end
+
+		var s = new dn.heaps.StatsBox(this);
+		s.chartWid = 100;
+		s.chartHei = 30;
+		s.
+		#if !debug
+		s.hide();
 		#end
+
 
 	}
 

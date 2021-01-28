@@ -8,6 +8,7 @@ class Hero extends Entity {
 		super(e.cx, e.cy);
 
 		bumpFrict = 0.88;
+		frictY = 0.86;
 		ca = Main.ME.controller.createAccess("hero");
 		ca.setLeftDeadZone(0.2);
 
@@ -117,10 +118,10 @@ class Hero extends Entity {
 
 
 		else if( cd.has("bumperJump") ) {
-			dy += -0.07*tmod;
+			dy += -0.05*tmod;
 		}
 		else if( cd.has("extraJump") ) {
-			dy += -0.04*tmod;
+			dy += -0.03*tmod;
 		}
 
 	}
@@ -140,7 +141,7 @@ class Hero extends Entity {
 
 		if( onGround || climbing ) {
 			cd.setS("onGroundRecently",0.1);
-			cd.setS("airControl",10);
+			cd.setS("airControl",2);
 		}
 
 		// Walk
@@ -156,6 +157,24 @@ class Hero extends Entity {
 
 		// Jump
 		jump();
+		// if( !onGround && cd.has("extraJumping") && ca.aDown() )
+		// 	dy+=-0.08*tmod;
+
+		// if( !onGround && ca.aPressed() && cd.has("allowAirJump") ) {
+		// 	// Double jump
+		// 	dy = -0.15;
+		// 	cd.unset("allowAirJump");
+		// 	cd.setS("extraJumping",0.1);
+		// 	cd.setS("reduceGravity",0.3);
+		// }
+
+		// if( onGround && ca.aPressed() ) {
+		// 	// Normal jump
+		// 	dy = -0.2;
+		// 	cd.setS("reduceGravity",0.1);
+		// 	cd.setS("extraJumping", 0.1);
+		// 	cd.setS("allowAirJump",Const.INFINITE);
+		// }		
 
 
 
@@ -243,31 +262,8 @@ class Hero extends Entity {
 
 
 
-
-		// // Circular collisions
-		// if( hasCircularCollisions() ) {
-		// 	var d = 0.;
-
-		// 	// Interact with bumpers
-		// 	for(e in en.Bumper.ALL) {
-		// 		if( !cd.has("dead") && !cd.has("dieing") && e.isAlive() && !e.cd.has("open") && hasCircularCollisionsWith(e) ) {
-		// 			d = M.dist(centerX,centerY, e.centerX,e.centerY);
-		// 			if( d<=(radius+e.radius)-e.wid/2 ) {
-		// 				e.onUse();
-		// 				cancelVelocities();
-		// 				cd.setS("bumperJump",0.2);
-		// 				dy = -0.8;
-		// 			}
-		// 		}
-		// 	}
-		// }
-
-
-
 		#if debug
-		// debug( M.pretty(hxd.Timer.fps(),1) );
-		// debug(state);
-		// debug(game.get_heroLife());
+		debug(state);
 		#end
 	}
 }

@@ -109,7 +109,7 @@ class Game extends Process {
 		hxd.Timer.skip();
 	}
 
-	public function notify(str:String, col=0x889fcd) {
+	public function notify(str:String, col=0xFFFFFF) {
 		var f = new h2d.Flow();
 		root.add(f, Const.DP_UI);
 		var tf = new h2d.Text(Assets.fontPixel, f);
@@ -126,6 +126,26 @@ class Game extends Process {
 			});
 		});
 	}
+
+	public function notifyFromBelow(str:String, col=0xFFFFFF) {
+		var f = new h2d.Flow();
+		root.add(f, Const.DP_UI);
+		var tf = new h2d.Text(Assets.fontPixel, f);
+		tf.scale(Const.SCALE*1.2);
+		tf.text = str;
+		tf.textColor = col;
+		f.x = Std.int( w()*0.5 - f.outerWidth*0.5 );
+		tw.createMs(f.y, h() > h() - tf.textHeight * f.scaleY-70, 150);
+		var time = secToFrames(2+str.length*0.03);
+		createChildProcess(function(p) {
+			if( --time<=0 ) {
+				p.destroy();
+				tw.createMs(f.y, h(), 400).end( f.remove );
+			}
+		});
+	}
+
+
 
 	public function popText(x:Float, y:Float, str:String, col=0xffcc00) {
 		var f = new h2d.Flow();
@@ -267,11 +287,14 @@ class Game extends Process {
 			// Exit
 			if( ca.isKeyboardPressed(Key.ESCAPE) ) {
 				if( !cd.hasSetS("exitWarn",3) ) {
-					var popup = new ui.Popup("Press ESC again to exit");
+					// var popup = new ui.Popup("Press ESC again to exit");
+					// Assets.SLIB.click(0.5);
+					// delayer.addS(()->{
+					// 	popup.dispose();
+					// }, 3);		
+					notifyFromBelow("Press ESCAPE again to exit.");	
 					Assets.SLIB.click(0.5);
-					delayer.addS(()->{
-						popup.dispose();
-					}, 3);			
+
 				}		
 				else
 					hxd.System.exit();
@@ -281,11 +304,13 @@ class Game extends Process {
 			#if js
 			// Sorry, cannot exit
 			if( ca.isKeyboardPressed(Key.ESCAPE) ) {
-				var popup = new ui.Popup("Close your browser to exit :)");
-				Assets.SLIB.click(0.5);
-				delayer.addS(()->{
-					popup.dispose();
-				}, 3);			
+				// var popup = new ui.Popup("Close your browser to exit :)");
+				// Assets.SLIB.click(0.5);
+				// delayer.addS(()->{
+				// 	popup.dispose();
+				// }, 3);		
+				notifyFromBelow("Close your browser to exit :)");	
+				Assets.SLIB.click(0.5);					
 			}
 			#end	
 

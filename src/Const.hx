@@ -7,7 +7,7 @@ class Const {
 	public static var SCALE = 1; // ignored if auto-scaling
 	public static var UI_SCALE = 1;
 
-	public static inline var GRAVITY = 0.032;
+	public static inline var GRAVITY = 0.035;
 	public static inline var INTRODELAY = 8;
 
 	/** Unique value generator **/

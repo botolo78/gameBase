@@ -23,9 +23,9 @@ class Level extends dn.Process {
 	var invalidated = true;
 
 	/** LDtk tilegroup layers**/
-	var tg_collisions : h2d.TileGroup;
-	var tg_decorations : h2d.TileGroup;
-	var tg_stamps : h2d.TileGroup;
+	// var tg_collisions : h2d.TileGroup;
+	// var tg_decorations : h2d.TileGroup;
+	// var tg_stamps : h2d.TileGroup;
 
 
 	public function new(l:World_Level) {
@@ -34,9 +34,9 @@ class Level extends dn.Process {
 		level = l;
 		var sourceTile = l.l_Collisions.tileset.getAtlasTile();
 
-		tg_collisions = new h2d.TileGroup(sourceTile, root);
-		tg_decorations = new h2d.TileGroup(sourceTile, root);
-		tg_stamps = new h2d.TileGroup(sourceTile, root);
+		// tg_collisions = new h2d.TileGroup(sourceTile, root);
+		// tg_decorations = new h2d.TileGroup(sourceTile, root);
+		// tg_stamps = new h2d.TileGroup(sourceTile, root);
 
 		// Marking
 		for(cy in 0...cHei)
@@ -109,9 +109,9 @@ class Level extends dn.Process {
 		level = null;
 		marks = null;
 
-		tg_collisions.remove();
-		tg_decorations.remove();
-		tg_stamps.remove();
+		// tg_collisions.remove();
+		// tg_decorations.remove();
+		// tg_stamps.remove();
 	}
 
 
@@ -146,10 +146,7 @@ class Level extends dn.Process {
 		// return !isValid(cx,cy) ? true : level.l_Collisions.getInt(cx,cy)==0;
 		return !isValid(cx,cy)
 		? true
-		: level.l_Collisions.getInt(cx,cy)==0 || // Ground
-		level.l_Collisions.getInt(cx,cy)==1 || 	// Briks
-		level.l_Collisions.getInt(cx,cy)==2 ||  // Pipes
-		level.l_Collisions.getInt(cx,cy)==3 ||  // Platform
+		: level.l_Collisions.getInt(cx,cy)==0 || // Main level collisions (walls..)
 		extraCollMap.exists(coordId(cx,cy)); // Collision with other entities
 	}
 
@@ -163,25 +160,45 @@ class Level extends dn.Process {
 
 
 	function render() {
-		// root.removeChildren();	
-		tg_collisions.clear();
-		tg_decorations.clear();
-		tg_stamps.clear();	
+		root.removeChildren();	
+		// tg_collisions.clear();
+		// tg_decorations.clear();
+		// tg_stamps.clear();	
 
-		// Render collisions
-		for( autoTile in level.l_Collisions.autoTiles ) {
-			var tile = level.l_Collisions.tileset.getAutoLayerTile(autoTile);
-			tg_collisions.add(autoTile.renderX, autoTile.renderY, tile);
-		}
 
-		// Render decorations
-		for( autoTile in level.l_Decorations.autoTiles ) {
-			var tile = level.l_Decorations.tileset.getAutoLayerTile(autoTile);
-			tg_decorations.add(autoTile.renderX, autoTile.renderY, tile);
-		}
+		// Create a wrapper to render all layers in it
+		var levelWrapper = new h2d.Object( Game.ME.scroller );
 
-		// Stamps
-		level.l_Stamps.render(tg_stamps);
+		// Position accordingly to world pixel coords
+		levelWrapper.x = level.worldX;
+		levelWrapper.y = level.worldY;
+
+		// Level background image
+		if( level.hasBgImage() )
+			levelWrapper.addChild( level.getBgBitmap() );
+
+		// Level Collisions
+		levelWrapper.addChild( level.l_Collisions.render() );
+		// Level Decorations
+		levelWrapper.addChild( level.l_Decorations.render() );
+		// Level Stamps
+		levelWrapper.addChild( level.l_Stamps.render() );
+
+
+		// // Render collisions
+		// for( autoTile in level.l_Collisions.autoTiles ) {
+		// 	var tile = level.l_Collisions.tileset.getAutoLayerTile(autoTile);
+		// 	tg_collisions.add(autoTile.renderX, autoTile.renderY, tile);
+		// 	}
+
+		// // Render decorations
+		// for( autoTile in level.l_Decorations.autoTiles ) {
+		// 	var tile = level.l_Decorations.tileset.getAutoLayerTile(autoTile);
+		// 	tg_decorations.add(autoTile.renderX, autoTile.renderY, tile);
+		// }
+
+		// // Stamps
+		// level.l_Stamps.render(tg_stamps);
 	}
 
 	override function postUpdate() {

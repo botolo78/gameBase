@@ -263,7 +263,7 @@ class Hero extends Entity {
 
 
 		#if debug
-		debug(state);
+		// debug(state);
 		#end
 	}
 }

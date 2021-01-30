@@ -3,9 +3,9 @@ package en;
 class Bumper extends Entity {
 	public static var ALL : Array<Bumper> = [];
 
-	var data : World.Entity_Bumper;
+	var data :Entity_Bumper;
 
-	public function new(e:World.Entity_Bumper) {
+	public function new(e:Entity_Bumper) {
 		data = e;
 		super(e.cx, e.cy);
 		ALL.push(this);

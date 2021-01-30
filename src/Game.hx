@@ -64,7 +64,8 @@ class Game extends Process {
 		// world = new World( hxd.Res.world.world.entry.getText() );
 		world = new World( hxd.Res.world.world_ldtk.entry.getText() );
 		fx = new Fx();
-		hud = new ui.Hud();
+		if ( Const.SHOW_HUD == 1 ) 
+			hud = new ui.Hud();
 
 		// Reset collectables counters
 		set_collHearts(0);
@@ -74,22 +75,20 @@ class Game extends Process {
 		initHeroLife(3);
 		startLevel(0);
 
-		// #if debug
-		// var tf = new h2d.Text(Assets.fontPixel,Boot.ME.s2d);
-		// tf.scale(4);
-		// createChildProcess((p)->{
-		// 	if( !p.cd.hasSetS("fps",0.1) )
-		// 		tf.text = "" + Std.int( hxd.Timer.fps() );
-		// });
-		// #end
-
-		var s = new dn.heaps.StatsBox(this);
-		s.chartWid = 100;
-		s.chartHei = 30;
-		s.
-		#if !debug
-		s.hide();
+		// Show FPS in debug mode (set SHOW_FPS = 1 in Const.hx)
+		#if debug
+		if ( Const.SHOW_FPS == 1 ) {
+			var tf = new h2d.Text(Assets.fontPixel,Boot.ME.s2d);
+			tf.scale(4);
+			tf.textColor = 0xffcc00;
+			createChildProcess((p)->{
+				if( !p.cd.hasSetS("fps",0.1) )
+					tf.text = "" + Std.int( hxd.Timer.fps() );
+			});
+		}
 		#end
+
+
 
 
 	}
@@ -122,7 +121,7 @@ class Game extends Process {
 		var f = new h2d.Flow();
 		root.add(f, Const.DP_UI);
 		var tf = new h2d.Text(Assets.fontPixel, f);
-		tf.scale(Const.SCALE*2);
+		tf.scale(Const.UI_SCALE);
 		tf.text = str;
 		tf.textColor = col;
 		f.x = Std.int( w()*0.5 - f.outerWidth*0.5 );
@@ -140,11 +139,11 @@ class Game extends Process {
 		var f = new h2d.Flow();
 		root.add(f, Const.DP_UI);
 		var tf = new h2d.Text(Assets.fontPixel, f);
-		tf.scale(Const.SCALE*1.2);
+		tf.scale(Const.UI_SCALE);
 		tf.text = str;
 		tf.textColor = col;
 		f.x = Std.int( w()*0.5 - f.outerWidth*0.5 );
-		tw.createMs(f.y, h() > h() - tf.textHeight * f.scaleY-70, 150);
+		tw.createMs(f.y, h() > h() - tf.textHeight * f.scaleY-100, 150);
 		var time = secToFrames(2+str.length*0.03);
 		createChildProcess(function(p) {
 			if( --time<=0 ) {
@@ -301,7 +300,7 @@ class Game extends Process {
 					// delayer.addS(()->{
 					// 	popup.dispose();
 					// }, 3);		
-					notifyFromBelow("Press ESCAPE again to exit.");	
+					notifyFromBelow("Press ESCAPE again to exit");	
 					Assets.SLIB.click(0.5);
 
 				}		

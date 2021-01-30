@@ -10,7 +10,7 @@ class Text extends Entity {
 	var darkCount = 0;
 	public var textVisible = true;
 
-	public function new(e:World.Entity_Text) {
+	public function new(e:Entity_Text) {
 		super(e.cx, e.cy);
 		data = e;
 		ALL.push(this);

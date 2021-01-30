@@ -77,7 +77,9 @@ class Entity {
 	public var entityVisible = true;
 
 	// Visual components
-    public var spr : HSprite;
+	public var spr : HSprite;
+	public var baseColor : h3d.Vector;
+	public var blinkColor : h3d.Vector;	
 	public var colorAdd : h3d.Vector;
 
 	// Debug stuff
@@ -112,6 +114,8 @@ class Entity {
         spr = new HSprite(Assets.tiles);
         Game.ME.scroller.add(spr, Const.DP_MAIN);
 		spr.colorAdd = colorAdd = new h3d.Vector();
+		baseColor = new h3d.Vector();
+		blinkColor = new h3d.Vector();		
 		spr.setCenterRatio(0.5,1);
 		if( ui.Console.ME.hasFlag("bounds") )
 			enableBounds();		
@@ -186,6 +190,8 @@ class Entity {
         ALL.remove(this);
 
 		colorAdd = null;
+		baseColor = null;
+		blinkColor = null;		
 
 		spr.remove();
 		spr = null;

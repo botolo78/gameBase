@@ -90,7 +90,7 @@ doorOpen
   index: -1
 empty
   rotate: false
-  xy: 80, 125
+  xy: 94, 125
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
@@ -104,98 +104,98 @@ fxCircle0
   index: -1
 fxDot0
   rotate: false
-  xy: 162, 119
+  xy: 186, 119
   size: 3, 3
   orig: 3, 3
   offset: 0, 0
   index: -1
 fxDust0
   rotate: false
-  xy: 155, 123
+  xy: 179, 123
   size: 5, 3
   orig: 5, 3
   offset: 0, 0
   index: -1
 fxDust1
   rotate: false
-  xy: 161, 123
+  xy: 185, 123
   size: 4, 3
   orig: 4, 3
   offset: 0, 0
   index: -1
 fxDust2
   rotate: false
-  xy: 106, 123
+  xy: 154, 123
   size: 4, 4
   orig: 4, 4
   offset: 0, 0
   index: -1
 fxDust3
   rotate: false
-  xy: 111, 123
+  xy: 174, 121
   size: 4, 4
   orig: 4, 4
   offset: 0, 0
   index: -1
 fxFirework0
   rotate: false
-  xy: 96, 115
+  xy: 110, 115
   size: 9, 9
   orig: 9, 9
   offset: 0, 0
   index: -1
 fxImpact0
   rotate: false
-  xy: 80, 115
+  xy: 94, 115
   size: 15, 9
   orig: 15, 9
   offset: 0, 0
   index: -1
 fxLeaf0
   rotate: false
-  xy: 138, 115
+  xy: 163, 115
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 fxLeaf1
   rotate: false
-  xy: 144, 115
+  xy: 168, 121
   size: 5, 5
   orig: 5, 5
   offset: 0, 0
   index: -1
 fxLeaf2
   rotate: false
-  xy: 150, 115
+  xy: 169, 115
   size: 4, 5
   orig: 4, 5
   offset: 0, 0
   index: -1
 fxLeaf3
   rotate: false
-  xy: 150, 121
+  xy: 174, 115
   size: 4, 5
   orig: 4, 5
   offset: 0, 0
   index: -1
 fxLine0
   rotate: false
-  xy: 116, 123
+  xy: 120, 124
   size: 33, 3
   orig: 33, 3
   offset: 0, 0
   index: -1
 fxLineDir0
   rotate: false
-  xy: 155, 115
+  xy: 179, 115
   size: 33, 3
   orig: 33, 3
   offset: 0, 0
   index: -1
 fxSmallCircle0
   rotate: false
-  xy: 122, 115
+  xy: 156, 115
   size: 6, 6
   orig: 6, 6
   offset: 0, 0
@@ -209,7 +209,7 @@ fxSmoke0
   index: -1
 fxStar
   rotate: false
-  xy: 106, 115
+  xy: 140, 115
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
@@ -223,7 +223,7 @@ fxTail0
   index: -1
 fxZ
   rotate: false
-  xy: 114, 115
+  xy: 148, 115
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
@@ -270,32 +270,25 @@ heroRun0
   orig: 32, 32
   offset: 0, 0
   index: -1
-itemDiamond0
+iconLifeOff
   rotate: false
-  xy: 426, 67
-  size: 16, 16
-  orig: 16, 16
+  xy: 120, 115
+  size: 9, 8
+  orig: 9, 8
   offset: 0, 0
   index: -1
-itemDiamond1
+iconLifeOn
   rotate: false
-  xy: 427, 84
-  size: 16, 16
-  orig: 16, 16
+  xy: 130, 115
+  size: 9, 8
+  orig: 9, 8
   offset: 0, 0
   index: -1
-itemHeart0
+itemDiamond
   rotate: false
-  xy: 427, 101
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1
-itemHeart1
-  rotate: false
-  xy: 437, 1
-  size: 16, 16
-  orig: 16, 16
+  xy: 80, 115
+  size: 13, 11
+  orig: 13, 11
   offset: 0, 0
   index: -1
 logo
@@ -307,14 +300,14 @@ logo
   index: -1
 pixel
   rotate: false
-  xy: 82, 125
+  xy: 96, 125
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 testEntity16x16
   rotate: false
-  xy: 437, 18
+  xy: 426, 67
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -342,14 +335,14 @@ triggerOn
   index: -1
 uiBar
   rotate: false
-  xy: 155, 119
+  xy: 179, 119
   size: 6, 3
   orig: 6, 3
   offset: 0, 0
   index: -1
 uiBarBg
   rotate: false
-  xy: 129, 115
+  xy: 159, 122
   size: 8, 5
   orig: 8, 5
   offset: 0, 0

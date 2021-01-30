@@ -22,21 +22,21 @@ class Hud extends dn.Process {
 		flow = new h2d.Flow(root);
 		flow.layout = Vertical;
 		// flow.debug=true;
-		flow.verticalSpacing = 0;		
+		flow.verticalSpacing = 0;	
+		flow.fillHeight = true;	
 
 		var mBox = new h2d.Flow(flow);
-		mBox.padding = 10;
-		mBox.paddingTop = 24;
+		mBox.padding = 5;
 		mBox.verticalAlign = Middle;
+		mBox.horizontalSpacing = 2;
 		
-		var diamondsIcon = Assets.tiles.h_get("itemDiamond1", mBox);
-		diamondsIcon.scaleX = 2.5;
-		diamondsIcon.scaleY = 2.5;
-		diamonds = new Text(Assets.fontMedium, mBox);
-		diamonds.dropShadow  = {dx: 0, dy: 2, color:0xFF0000, alpha:0.9};
+		var diamondsIcon = Assets.tiles.h_get("itemDiamond", mBox);
+		diamonds = new Text(Assets.fontPixel, mBox);
+		// diamonds.dropShadow  = {dx: 0, dy: 0, color:0x000000, alpha:0.5};
 
 		life = new h2d.Flow(flow);
-		life.paddingLeft = 13;
+		life.paddingLeft = 6;
+		life.verticalSpacing = 2;
 		life.layout = Vertical;		
 	}
 
@@ -62,16 +62,14 @@ class Hud extends dn.Process {
 
 		life.removeChildren();
 		for(i in 0...Game.ME.heroMaxLife) {
-			var lifeIcon = Assets.tiles.h_get(i+1<=Game.ME.heroLife ? "itemHeart1" : "itemHeart0", life);		
-			lifeIcon.scaleX = 1.5;
-			lifeIcon.scaleY = 1.5;
+			var lifeIcon = Assets.tiles.h_get(i+1<=Game.ME.heroLife ? "iconLifeOn" : "iconLifeOff", life);		
 		}
 	}
 
 	override public function update() {
 		super.update();
 		if( cd.has("shaking") )
-			diamonds.y = 32 + Math.cos(ftime*0.7)*2 * cd.getRatio("shaking");
+			diamonds.y = 5 + Math.cos(ftime*0.7)*2 * cd.getRatio("shaking");
 	}	
 
 	override function postUpdate() {

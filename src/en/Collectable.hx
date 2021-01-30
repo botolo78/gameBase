@@ -5,6 +5,7 @@ class Collectable extends Entity {
 	public var type : Collectables;
 	var data : Entity_Collectable;
 	public var origin : Null<LPoint>;
+	public var shineColor = new h3d.Vector();
 
 	public function new(e:Entity_Collectable) {
 		super(e.cx, e.cy);
@@ -13,16 +14,17 @@ class Collectable extends Entity {
 		type = e.f_collectables; 
 		origin = makePoint();
 		circularCollisions = true;
-		set_hei(12);
-		set_radius(6);
-		spr.setCenterRatio(0.5,0.90);
+
 		spr.anim.setGlobalSpeed(0.05);
 		spr.anim.registerStateAnim("collected",1, 0.5, ()-> cd.has("collected"));    
 		switch type {
             case Heart: 
-				spr.anim.registerStateAnim("itemHeart",0, ()-> isAlive());
+				spr.anim.registerStateAnim("iconLifeOn",0, ()-> isAlive());
+				spr.setCenterRatio(0.5,1.25);
 			case Diamond: 
 				spr.anim.registerStateAnim("itemDiamond",0, ()-> isAlive());
+				spr.setCenterRatio(0.5,1.25);
+				set_hei(12);
 		};
 	}
 
@@ -34,7 +36,6 @@ class Collectable extends Entity {
 
 	public function delayedDie() {
 		super.onDie();
-	
 	}
 
 	override function update() {
@@ -82,4 +83,37 @@ class Collectable extends Entity {
 			}
 		}		
 	}
+
+	override function postUpdate() {
+		super.postUpdate();
+
+		if( type==Diamond && !cd.hasSetS("fx",rnd(0.1,0.4)) ) {
+			fx.shine(centerX+rnd(0,5,true), centerY+rnd(0,4,true), 0x4a98ff);
+			if( !cd.hasSetS("itemBlink",1) ) {
+				cd.setS("keepShine",0.1);
+				shineColor.setColor(0x4a98ff);
+			}				
+		}
+
+		if( type==Heart && !cd.hasSetS("fx",rnd(0.1,0.4)) ) {
+			if( !cd.hasSetS("itemBlink",1) ) {
+				cd.setS("keepShine",0.1);
+				shineColor.setColor(0xff614d);
+			}				
+		}
+
+		// Shine
+		if( !cd.has("keepShine") ) {
+			shineColor.r*=Math.pow(0.95, tmod);
+			shineColor.g*=Math.pow(0.85, tmod);
+			shineColor.b*=Math.pow(0.70, tmod);
+		}
+
+		spr.colorAdd.load(baseColor);
+		spr.colorAdd.r += shineColor.r;
+		spr.colorAdd.g += shineColor.g;
+		spr.colorAdd.b += shineColor.b;
+	}
+
+
 }

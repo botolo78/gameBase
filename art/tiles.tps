@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>5.4.0</string>
+        <string>5.5.0</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -184,10 +184,6 @@
             <key type="filename">export_tiles/bumperOff.png</key>
             <key type="filename">export_tiles/bumperOut.png</key>
             <key type="filename">export_tiles/fxCircle0.png</key>
-            <key type="filename">export_tiles/itemDiamond0.png</key>
-            <key type="filename">export_tiles/itemDiamond1.png</key>
-            <key type="filename">export_tiles/itemHeart0.png</key>
-            <key type="filename">export_tiles/itemHeart1.png</key>
             <key type="filename">export_tiles/testEntity16x16.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -460,6 +456,37 @@
                 <rect>8,3,17,5</rect>
                 <key>scale9Paddings</key>
                 <rect>8,3,17,5</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">export_tiles/iconLifeOff.png</key>
+            <key type="filename">export_tiles/iconLifeOn.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>2,2,5,4</rect>
+                <key>scale9Paddings</key>
+                <rect>2,2,5,4</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">export_tiles/itemDiamond.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>3,3,7,5</rect>
+                <key>scale9Paddings</key>
+                <rect>3,3,7,5</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

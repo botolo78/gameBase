@@ -74,6 +74,15 @@ class Main extends dn.Process {
 		controller.bind(START, Key.N);		
 
 
+		// Screen overlay
+		// Show screen overlay  (set SHOW_SCREEN_OVERLAY = 1 in Const.hx)
+		if ( Const.SHOW_SCREEN_OVERLAY == 1 ) { 
+			var f = new dn.heaps.filter.OverlayTexture(Soft);
+			f.alpha = 0.15;
+			f.autoUpdateSize = ()->return Const.SCALE;
+			Boot.ME.s2d.filter = f;
+		}
+
 		#if js
 		// Optional helper that shows a "Click to start/continue" message when the game looses focus
 		new dn.heaps.GameFocusHelper(Boot.ME.s2d, Assets.fontMedium);
@@ -99,6 +108,7 @@ class Main extends dn.Process {
 			#if !debug
 			showIntro();
 			#else
+			// showIntro();
 			new Game();
 			#end
 		}
@@ -160,8 +170,8 @@ class Main extends dn.Process {
 		super.onResize();
 
 		// Auto scaling
-		Const.SCALE = dn.heaps.Scaler.bestFit_i(640,256);
-		Const.UI_SCALE = Const.SCALE;
+		Const.SCALE = dn.heaps.Scaler.bestFit_i(350,200);
+		// Const.UI_SCALE = Const.SCALE;
 	}
 
 

@@ -11,8 +11,9 @@ class Const {
 	public static inline var SHOW_SCREEN_OVERLAY = 1; // set to 1 to show screen overlay
 
 	public static inline var GRAVITY = 0.035;
-	public static inline var INTRODELAY = 8;
+	public static inline var INTRODELAY = 5;
 
+	public static var DARK_COLOR = 0x1b131b;
 
 	/** Unique value generator **/
 	public static var NEXT_UNIQ(get,never) : Int; static inline function get_NEXT_UNIQ() return _uniq++;

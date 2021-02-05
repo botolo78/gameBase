@@ -17,7 +17,7 @@ class Main extends dn.Process {
         createRoot(s);
 
 		// Engine settings
-		engine.backgroundColor = 0xff<<24|0x000000;
+		engine.backgroundColor = 0xff<<24|Const.DARK_COLOR;
 		// engine.fullScreen = true; 
         #if( hl && !debug )
         engine.fullScreen = true;
@@ -34,7 +34,8 @@ class Main extends dn.Process {
 		#if debug
         hxd.res.Resource.LIVE_UPDATE = true;
         hxd.Res.data.watch(function() {
-            delayer.cancelById("cdb");
+			delayer.cancelById("cdb");
+			
             delayer.addS("cdb", function() {
 				// Only reload actual updated file from disk after a short delay, to avoid reading a file being written
             	Data.load( hxd.Res.data.entry.getBytes().toString() );
@@ -112,7 +113,6 @@ class Main extends dn.Process {
 			new Game();
 			#end
 		}
-	
 	}
 
 

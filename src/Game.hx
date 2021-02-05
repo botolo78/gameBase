@@ -47,6 +47,7 @@ class Game extends Process {
 	public var hero: en.Hero;
 	public var curLevelIdx = 0;
 
+	var fadeMask : h2d.Bitmap;
 
 	public function new() {
 		super(Main.ME);
@@ -67,6 +68,9 @@ class Game extends Process {
 		if ( Const.SHOW_HUD == 1 ) 
 			hud = new ui.Hud();
 
+		fadeMask = new h2d.Bitmap( h2d.Tile.fromColor(Const.DARK_COLOR) );
+		root.add(fadeMask, Const.DP_TOP);
+
 		// Reset collectables counters
 		set_collHearts(0);
 		set_collDiamonds(0);
@@ -74,6 +78,7 @@ class Game extends Process {
 		// Init hero & start level
 		initHeroLife(3);
 		startLevel(0);
+		notify("Start level", 0xffcc00);
 
 		// Show FPS in debug mode (set SHOW_FPS = 1 in Const.hx)
 		#if debug
@@ -87,10 +92,6 @@ class Game extends Process {
 			});
 		}
 		#end
-
-
-
-
 	}
 
 	public function initHeroLife(v) {
@@ -99,6 +100,8 @@ class Game extends Process {
 
 	function startLevel(idx=-1, ?data:World_Level) {
 		curLevelIdx = idx;
+		fadeIn();
+
 		// Cleanup
 		if( level!=null )
 			level.destroy();
@@ -117,11 +120,23 @@ class Game extends Process {
 		hxd.Timer.skip();
 	}
 
+	function fadeIn() {
+		tw.terminateWithoutCallbacks(fadeMask.alpha);
+		fadeMask.visible = true;
+		tw.createMs( fadeMask.alpha, 1>0, 800, TEaseIn ).end( ()->fadeMask.visible = false );
+	}
+
+	function fadeOut() {
+		tw.terminateWithoutCallbacks(fadeMask.alpha);
+		fadeMask.visible = true;
+		tw.createMs( fadeMask.alpha, 0>1, 2000, TEaseIn );
+	}
+
 	public function notify(str:String, col=0xFFFFFF) {
 		var f = new h2d.Flow();
 		root.add(f, Const.DP_UI);
 		var tf = new h2d.Text(Assets.fontPixel, f);
-		tf.scale(Const.UI_SCALE);
+		tf.scale(Const.SCALE*2);
 		tf.text = str;
 		tf.textColor = col;
 		f.x = Std.int( w()*0.5 - f.outerWidth*0.5 );
@@ -152,8 +167,6 @@ class Game extends Process {
 			}
 		});
 	}
-
-
 
 	public function popText(x:Float, y:Float, str:String, col=0xffcc00) {
 		var f = new h2d.Flow();
@@ -186,6 +199,9 @@ class Game extends Process {
 	override function onResize() {
 		super.onResize();
 		scroller.setScale(Const.SCALE);
+
+		fadeMask.scaleX = w()/fadeMask.tile.width;
+		fadeMask.scaleY = h()/fadeMask.tile.height;		
 	}
 
 
@@ -295,11 +311,6 @@ class Game extends Process {
 			// Exit
 			if( ca.isKeyboardPressed(Key.ESCAPE) ) {
 				if( !cd.hasSetS("exitWarn",3) ) {
-					// var popup = new ui.Popup("Press ESC again to exit");
-					// Assets.SLIB.click(0.5);
-					// delayer.addS(()->{
-					// 	popup.dispose();
-					// }, 3);		
 					notifyFromBelow("Press ESCAPE again to exit");	
 					Assets.SLIB.click(0.5);
 
@@ -312,11 +323,6 @@ class Game extends Process {
 			#if js
 			// Sorry, cannot exit
 			if( ca.isKeyboardPressed(Key.ESCAPE) ) {
-				// var popup = new ui.Popup("Close your browser to exit :)");
-				// Assets.SLIB.click(0.5);
-				// delayer.addS(()->{
-				// 	popup.dispose();
-				// }, 3);		
 				notifyFromBelow("Close your browser to exit :)");	
 				Assets.SLIB.click(0.5);					
 			}
